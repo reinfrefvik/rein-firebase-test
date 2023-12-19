@@ -1,20 +1,20 @@
 import React, {useContext} from 'react';
 import { AuthContext } from './contexts/authContexts';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Login } from './components/login';
+import { HomePage } from './pages/homePage';
 
 const Routers = () => {
-    const {isAuthenticated, isLoading} = useContext(AuthContext);
-    console.log(isAuthenticated);
+    const {isLoading, user} = useContext(AuthContext);
+    console.log(user);
 
     if(isLoading) {
         return <div>Loading...</div>
     }
 
-    if(!isAuthenticated) {
+    if(!user) {
         return (
             <Routes>
-                <Route path="/login" element={<Login/>} />
+                <Route path="/login" element={<HomePage/>} />
                 <Route path="*" element={<Navigate replace to="/login" />} />
             </Routes>
         )
@@ -22,7 +22,7 @@ const Routers = () => {
 
     return (
         <Routes>
-            <Route path="/home" element={<Login/>} />
+            <Route path="/home" element={<HomePage/>} />
             <Route path="*" element={<Navigate replace to="/home" />} />
         </Routes> 
     )

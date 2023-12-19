@@ -1,21 +1,21 @@
-import React from 'react';
-import { useCookies } from 'react-cookie';
+import React, { useContext } from 'react';
+import { AuthContext } from '../contexts/authContexts';
 
 
 const Login = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const {user, signIn, signOut} = useContext(AuthContext);
 
     const onClickAction = () => {
-        if(!cookies.token) {
-            setCookie('token', 'test1234');
+        if(!user) {
+            signIn('test@test.no', '123456');
         } else {
-            removeCookie('token');
+            signOut();
         }
-
     }
+
     return (
         <div>
-            <span style={{display: "flex", alignItems: "center"}} onClick={onClickAction}> {!cookies.token ? 'Login' : 'Logout'}</span>
+            <span style={{display: "flex", alignItems: "center"}} onClick={onClickAction}> {!user ? 'Login' : 'Logout'}</span>
         </div>
     )
 };
