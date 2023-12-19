@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import { AuthContext } from './contexts/authContexts.tsx';
+import { AuthContext } from './contexts/authContexts';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Login } from './components/login.js';
+import { Login } from './components/login';
 
 const Routers = () => {
     const {isAuthenticated, isLoading} = useContext(AuthContext);
