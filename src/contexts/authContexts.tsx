@@ -37,7 +37,6 @@ const AuthProvider = ({children}) => {
     //SIGN OUT
     const signOut = async (): Promise<void> => {
       await auth.signOut();
-      // window.location.href = '/';
       setUser(null);
     };
 
@@ -48,7 +47,6 @@ const AuthProvider = ({children}) => {
           // Signed in 
           const user = userCredential.user;
           console.log(user);
-          // ...
       })
       .catch((error) => {
         console.log(error);
@@ -58,14 +56,15 @@ const AuthProvider = ({children}) => {
 
     useEffect(() => {
         // firebase func
+        setLoading(true);
         onAuthStateChanged(auth, (user) => {
             if (user) {
               setUser(user);
+              setLoading(false);
             } else {
-              console.log('no user');
+              setLoading(false);
             }
         });
-        setLoading(false);
       }, [user]);
 
     return <AuthContext.Provider value={{isLoading, user, signOut, signIn, createUser}}>{children}</AuthContext.Provider>;
