@@ -1,67 +1,85 @@
+// Header.tsx
+
 import React, { useContext, useState } from 'react';
 import './Header.css'; // Import your CSS file
 import { AuthContext } from '../../contexts/authContexts';
+import { Login } from '../login';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
-  onLogin: (username: string, password: string) => void;
+  
 }
 
-const Header: React.FC<HeaderProps> = ({ onLogin }) => {
-  const [showLoginMenu, setShowLoginMenu] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+interface NavbarItem {
+  id: number;
+  title: string;
+  expand: boolean;
+}
 
-  const {user, signOut, signIn} = useContext(AuthContext);
+const Header: React.FC<HeaderProps> = () => {
+  const {user} = useContext(AuthContext);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<number[]>([]);
 
-  const toggleLoginMenu = () => {
-    setShowLoginMenu(!showLoginMenu);
+  const navbarItems: NavbarItem[] = [
+    { id: 1, title: 'Home', expand: false },
+    { id: 2, title: 'About', expand: false },
+    { id: 3, title: 'Rooms', expand: true },
+  ];
+
+  const toggleUserMenu = () => {
+    console.log('toggleUserMenu');
+    setShowUserMenu(!showUserMenu);
+    console.log(showUserMenu);
   };
 
-  const handleLogin = () => {
-    // Perform login logic or pass credentials to parent component
-    signIn('test@test.no', '123456');
-
-    // Reset fields and hide login menu
-    setUsername('');
-    setPassword('');
-    setShowLoginMenu(false);
-  };
-
-  const LoginButton = () => {
-    if (!user) {
-      return <>
-      <div className="login-button" onClick={toggleLoginMenu}>
-        Login
-      </div>
-      {showLoginMenu && (
-        <div className="login-menu">
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handleLogin}>Login</button>
-        </div>
-      )}
-    </>;
+  const handleNavbarItemClick = (id: number) => {
+    const item = navbarItems.find((item) => item.id === id);
+    if (item) {
+      if(item.expand === false || item.id === expandedItems[0]) {
+        setExpandedItems([]);
+      } else {
+        setExpandedItems([id]);
+      }
     } else {
-      return <div className="logout-button" onClick={signOut}>
-      Logout
-      </div>;
+      setExpandedItems([]);
     }
   }
+
   return (
-    <div className="header">
-      <div className="logo">Your Logo</div>
-      <LoginButton />
-    </div>
+    <header className="header">
+      <h1 className="logo">Your App Name</h1>
+      <div className="nav">
+        <div className="nav-items">
+          {navbarItems.map((item) => (
+            <div className="nav-item" key={item.id} onClick={() => handleNavbarItemClick(item.id)}>
+              {item.title}
+              </div>
+              ))}
+        </div>
+        <div className={`sub-menu ${expandedItems.length > 0 ? 'expand' : 'collapse'}`}>
+          <div className="sub-menu-item">Sub Menu Item 1</div>
+        </div>
+      </div>
+      <div className="user-info">
+        <div className="user-settings" onClick={toggleUserMenu}>{ !!user ? user.email : 'User'}</div>
+      </div>
+      {showUserMenu && (
+        <div className="user-menu">
+          {!!user ? (
+            <>
+              <div className="user-menu-item">Profile</div>
+              <div className="user-menu-item">Settings</div>
+              <div className="user-menu-item"><Login/></div>
+            </>
+          ) : (
+            <>
+              <div className="user-menu-item"><Link to="login">Log in</Link></div>
+            </>
+          )}
+        </div>
+      )}
+    </header>
   );
 };
 

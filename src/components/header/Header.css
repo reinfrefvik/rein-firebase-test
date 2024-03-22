@@ -1,53 +1,95 @@
+/* Header.css */
 .header {
-    display: flex;
-    position: relative;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-  }
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #000;
+  color: white;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-settings {
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-settings:hover {
+  text-shadow: 0 0 0.1em #fff;
+  background-color: #353637
+}
   
-  .logo {
-    font-size: 1.5em;
-  }
-  
-  .login-button {
-    cursor: pointer;
-  }
-  
-  .login-menu {
-    z-index: 1000;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  input {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    background-color: #4caf50;
-    color: white;
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+.user-menu {
+  z-index: 1000;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.user-menu-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  color: black;
+}
+
+.nav-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.nav-item {
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  text-shadow: 0 0 0.1em #fff;
+  background-color: #353637
+}
+
+.sub-menu{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.sub-menu.expand {
+  display: block;
+}
+
+.sub-menu.collapse {
+  display: none;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}

@@ -1,11 +1,10 @@
-import Header from "../components/header/Header"
+import { Login } from "../components/login";
 
 const HomePage = () => {
     return (
         <div>
-            <Header onLogin={function (username: string, password: string): void {
-                throw new Error("Function not implemented.")
-            } } />
+            <h1>content</h1>
+            <Login />
         </div>
     )
 }

@@ -1,20 +1,20 @@
 import './App.css';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './contexts/authContexts';
 import Routers from './Routers';
 import React from 'react';
+import Header from './components/header/Header';
 
 function App() {
   return (
-    <div style={{width: "100%", height: "100%"}}>
+    <BrowserRouter>
+    <div className="App">
       <AuthProvider>
-        <div className="App">
-          <Router>
+          <Header/>
             <Routers />
-          </Router>
-        </div>
       </AuthProvider>
     </div>
+    </BrowserRouter>
   );
 }
 
