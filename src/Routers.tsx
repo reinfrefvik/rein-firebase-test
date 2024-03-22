@@ -4,10 +4,12 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { HomePage } from './pages/homePage';
 import LoginPage from './pages/loginPage/loginPage';
 import RegistrationForm from './pages/registrationForm/registrationForm';
+import ProfilePage from './pages/profilePage/profilePage';
 
 const Routers = () => {
     const {isLoading, user} = useContext(AuthContext);
     console.log(user+" user");
+    console.log({...user})
     console.log(isLoading+" loading");
 
     if(isLoading) {
@@ -26,6 +28,7 @@ const Routers = () => {
         return (
             <Routes>
                 <Route path="/home" element={<HomePage/>} />
+                <Route path="/profile" element={<ProfilePage/>} />
                 <Route path="*" element={<Navigate replace to="/home" />} />
             </Routes> 
         )

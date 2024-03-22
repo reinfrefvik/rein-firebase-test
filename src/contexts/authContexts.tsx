@@ -1,13 +1,14 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { auth } from '../Firebase.js';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 interface AuthContextProps {
     isLoading: boolean;
     user: any;
     signOut: () => void;
     signIn: (email: string, password: string) => Promise<void>;
-    createUser: (email: string, password: string) => Promise<void>;
+    createUser: (email: string, password: string, userName?: string) => Promise<void>;
+    updateUser: (email?: any, password?: any, displayName?: any, photoUrl?: any) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);  
@@ -41,16 +42,34 @@ const AuthProvider = ({children}) => {
     };
 
     //CREATE USER
-    const createUser = async (email, password) => {
-      createUserWithEmailAndPassword(auth, email, password)
+    const createUser = async (email, password, userName?) => {
+      let finished = false;
+      await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
           console.log(user);
+          // updateUser(false, false, userName, true);
+          finished = true;
       })
       .catch((error) => {
         console.log(error);
       })
+      if (finished) {
+        await updateUser(false, false, userName, true);
+      }
+    };
+
+    //UPDATE USER
+    const updateUser = async (email?, password?, displayName?, photoUrl?) => {
+      if (photoUrl) {      
+        const userImage = `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
+        await updateProfile(auth.currentUser, {displayName: displayName, photoURL: userImage}).then(() => {
+          console.log('User updated'+{...user});
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
     };
 
 
@@ -67,7 +86,7 @@ const AuthProvider = ({children}) => {
         });
       }, [user]);
 
-    return <AuthContext.Provider value={{isLoading, user, signOut, signIn, createUser}}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{isLoading, user, signOut, signIn, createUser, updateUser}}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContext, AuthProvider };

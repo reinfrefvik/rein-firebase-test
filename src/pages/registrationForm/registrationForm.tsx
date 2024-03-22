@@ -13,7 +13,7 @@ const RegistrationForm = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if(!name || !email || !password || !confirmPassword) {
@@ -30,8 +30,8 @@ const RegistrationForm = () => {
         alert('Passwords do not match');
         return;
     }
-
-    createUser(email, password);
+  
+    await createUser(email, password, name);
   };
 
   return (
