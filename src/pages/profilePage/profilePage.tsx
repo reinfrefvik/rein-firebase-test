@@ -27,15 +27,15 @@ const ProfilePage = () => {
     e.preventDefault();
     console.log('submitting user data')
     if (editDisplayName.length < 3) {
-      alert('Name must be at least 3 characters long');
-      return;
+      alert('this only works on username')
     }
-    if (editEmail.length < 3) {
-      alert('Email must be at least 3 characters long');
+    if (editDisplayName.length < 3 && editEmail.length < 3) {
+      alert('something must have been changed');
       return;
     }
 
 
+    updateUser(editEmail.length > 3 ? editEmail : false, false, editDisplayName.length > 3 ? editDisplayName : false, false);
   }
 
   const submitPassword = (e) => {

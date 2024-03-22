@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = () => {
                 <div className='user-displayname'> {user.displayName}</div>
                 <div className='user-email'>{ user.email }</div>
               </div>
-              <img className='user-img' src={!!user ? user.photoURL : 'https://picsum.photos/200'} alt="User" />
+              <img className='user-img' src={!!user ? user.photoURL : 'https://picsum.photos/200'} alt="userLogo" />
             </>
           :
           <span>Log in</span>

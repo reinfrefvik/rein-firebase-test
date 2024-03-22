@@ -62,14 +62,20 @@ const AuthProvider = ({children}) => {
 
     //UPDATE USER
     const updateUser = async (email?, password?, displayName?, photoUrl?) => {
-      if (photoUrl) {      
-        const userImage = `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
-        await updateProfile(auth.currentUser, {displayName: displayName, photoURL: userImage}).then(() => {
-          console.log('User updated'+{...user});
-        }).catch((error) => {
-          console.log(error);
-        });
+      var newPhotoUrl = photoUrl ?? user.photoURL;
+      const newEmail = email ?? user.email;
+      const newDisplayName = displayName ?? user.displayName;
+      
+      if (!newPhotoUrl || newPhotoUrl == '') {
+        newPhotoUrl = `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
       }
+      
+      await updateProfile(auth.currentUser, {displayName: newDisplayName, photoURL: newPhotoUrl}).then(() => {
+        console.log('User updated'+{...user});
+      }).catch((error) => {
+        console.log(error);
+      });
+      
     };
 
 
