@@ -43,33 +43,52 @@ const AuthProvider = ({children}) => {
 
     //CREATE USER
     const createUser = async (email, password, userName?) => {
-      let finished = false;
+      console.log('createUser')
+      var finished = false;
       await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+          console.log('User created');
           // Signed in 
           const user = userCredential.user;
+          setUser(user);
           console.log(user);
-          // updateUser(false, false, userName, true);
           finished = true;
       })
       .catch((error) => {
         console.log(error);
       })
       if (finished) {
-        await updateUser(false, false, userName, true);
+        await updateNewUser(userName);
       }
+    };
+  
+    const updateNewUser = async (displayName) => {
+      const newPhotoUrl = `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
+      await updateProfile(auth.currentUser, {displayName: displayName, photoURL: newPhotoUrl }).then(() => {
+        console.log('User updated');
+        setUser(auth.currentUser);
+      }).catch((error) => {
+        console.log(error);
+      });
     };
 
     //UPDATE USER
     const updateUser = async (email?, password?, displayName?, photoUrl?) => {
-      var newPhotoUrl = photoUrl ?? user.photoURL;
+      console.log('updateUser')
+      var newPhotoUrl = '';
+      console.log('checking user.photoURL');  
+      if (Object.values(user).includes('photoURL')) {
+        console.log('user.photoURL is not null');
+      }
       const newEmail = email ?? user.email;
       const newDisplayName = displayName ?? user.displayName;
       
-      if (!newPhotoUrl || newPhotoUrl == '') {
+      if (photoUrl) {
         newPhotoUrl = `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
       }
       
+      console.log('newPhotoUrl', newPhotoUrl);
+
       await updateProfile(auth.currentUser, {displayName: newDisplayName, photoURL: newPhotoUrl}).then(() => {
         console.log('User updated'+{...user});
       }).catch((error) => {
