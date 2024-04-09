@@ -1,6 +1,6 @@
 // Header.tsx
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Header.css'; // Import your CSS file
 import { AuthContext } from '../../contexts/authContexts';
 import { Login } from '../login';
@@ -48,7 +48,6 @@ const Header: React.FC<HeaderProps> = () => {
     }
   }
 
-  // console.log(user.photoURL)
   return (
     <header className="header">
       <div className="logo-container">
@@ -76,10 +75,10 @@ const Header: React.FC<HeaderProps> = () => {
           {!! user ? 
             <>
               <div className='user-names'>
-                <div className='user-displayname'> {user.displayName}</div>
+                { user.displayName && <div className='user-displayname'> {user.displayName}</div> }
                 <div className='user-email'>{ user.email }</div>
               </div>
-              <img className='user-img' src={!!user ? user.photoURL : 'https://picsum.photos/200'} alt="userLogo" />
+              <img className='user-img' src={!!user?.photoURL ? user.photoURL : 'https://picsum.photos/200'} alt="userLogo" />
             </>
           :
           <span>Log in</span>

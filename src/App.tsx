@@ -2,7 +2,6 @@ import './App.css';
 import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './contexts/authContexts';
 import Routers from './Routers';
-import React from 'react';
 import Header from './components/header/Header';
 
 function App() {
@@ -11,7 +10,7 @@ function App() {
     <div className="App">
       <AuthProvider>
           <Header/>
-            <Routers />
+          <Routers />
       </AuthProvider>
     </div>
     </BrowserRouter>

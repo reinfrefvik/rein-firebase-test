@@ -14,7 +14,7 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | null>(null);  
 
 const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null); // <-- new state
+    const [user, setUser] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
     //SIGN IN
@@ -45,31 +45,35 @@ const AuthProvider = ({children}) => {
     const createUser = async (email, password, userName?) => {
       console.log('createUser')
       var finished = false;
+      const errors = [];
+      const newPhotoUrl = `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
+
       await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
           console.log('User created');
-          // Signed in 
+  
           const user = userCredential.user;
-          setUser(user);
+          // setUser(user);
           console.log(user);
           finished = true;
       })
       .catch((error) => {
         console.log(error);
-      })
-      if (finished) {
-        await updateNewUser(userName);
-      }
-    };
-  
-    const updateNewUser = async (displayName) => {
-      const newPhotoUrl = `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
-      await updateProfile(auth.currentUser, {displayName: displayName, photoURL: newPhotoUrl }).then(() => {
-        console.log('User updated');
-        setUser(auth.currentUser);
-      }).catch((error) => {
-        console.log(error);
+        errors.push(error);
       });
+    
+      if (finished) {
+        await updateProfile(auth.currentUser, {displayName: userName, photoURL: newPhotoUrl }).then(() => {
+          console.log('User updated');
+          // setUser(auth.currentUser);
+        }).catch((error) => {
+          console.log(error);
+          errors.push(error);
+        });
+      }
+
+      console.log('set user');
+      setUser(auth.currentUser);
     };
 
     //UPDATE USER
@@ -99,13 +103,17 @@ const AuthProvider = ({children}) => {
 
 
     useEffect(() => {
+        console.log('use effect');
         // firebase func
         setLoading(true);
         onAuthStateChanged(auth, (user) => {
+          console.log('onAuthStateChanged');
             if (user) {
+              console.log('onAuthStateChanged USER');
               setUser(user);
               setLoading(false);
             } else {
+              console.log('onAuthStateChanged NULL');
               setLoading(false);
             }
         });

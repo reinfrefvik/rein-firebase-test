@@ -8,9 +8,6 @@ import ProfilePage from './pages/profilePage/profilePage';
 
 const Routers = () => {
     const {isLoading, user} = useContext(AuthContext);
-    console.log(user+" user");
-    console.log({...user})
-    console.log(isLoading+" loading");
 
     if(isLoading) {
         return <div>Loading...</div>

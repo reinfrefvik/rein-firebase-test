@@ -1,11 +1,9 @@
 import React, { useContext, useState } from 'react';
 import './RegistrationForm.css'; // Import your CSS file for styling
-import { auth } from '../../Firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { AuthContext } from '../../contexts/authContexts';
 
 const RegistrationForm = () => {
-  const {user, signIn, signOut, createUser} = useContext(AuthContext);
+  const {createUser} = useContext(AuthContext);
   
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
