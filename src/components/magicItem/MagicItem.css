@@ -1,0 +1,10 @@
+.add-magic-item-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 500px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}

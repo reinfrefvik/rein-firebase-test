@@ -26,7 +26,8 @@ const Header: React.FC<HeaderProps> = () => {
   const navbarItems: NavbarItem[] = [
     { id: 1, title: 'Home', navLink: '/', expand: false },
     { id: 2, title: 'Profile', navLink:'/profile', expand: false },
-    { id: 3, title: 'Rooms', expand: true },
+    { id: 3, title: 'Items', navLink:'/magicitems', expand: false },
+    { id: 4, title: 'Rooms', expand: true },
   ];
 
   const toggleUserMenu = () => {

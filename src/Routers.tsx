@@ -5,6 +5,7 @@ import { HomePage } from './pages/homePage';
 import LoginPage from './pages/loginPage/loginPage';
 import RegistrationForm from './pages/registrationForm/registrationForm';
 import ProfilePage from './pages/profilePage/profilePage';
+import MagicItemPage from './pages/magicItemPage/magicItemPage';
 
 const Routers = () => {
     const {isLoading, user} = useContext(AuthContext);
@@ -26,6 +27,7 @@ const Routers = () => {
             <Routes>
                 <Route path="/home" element={<HomePage/>} />
                 <Route path="/profile" element={<ProfilePage/>} />
+                <Route path="/magicitems" element={<MagicItemPage/>} />
                 <Route path="*" element={<Navigate replace to="/home" />} />
             </Routes> 
         )
