@@ -1,9 +1,10 @@
 .profile-body {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    align-items: start;
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -16,6 +17,20 @@
     margin-top: 3vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+}
+
+.add-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+}
+
+.list-card {
+    border: 1 1 red;
+    width: 100%;
+    margin: 5px;
 }
 
 .card-title {

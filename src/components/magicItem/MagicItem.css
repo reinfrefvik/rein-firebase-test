@@ -1,10 +1,61 @@
+.add_magic_item_form_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    min-width: 200px;
+    
+    margin: 5px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
 .add-magic-item-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    min-width: 500px;
-    width: 100%;
+    min-width: 200px;
+    width: 20vw;
     margin: 0;
     padding: 0;
+}
+
+.mi_list_card {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+}
+
+.mi_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 200px;
+    
+    margin: 16px 5px;
+    padding: 16px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.mi_title {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.mi_type {
+    font-size: 0.8em;
+    color: #777777;
+}
+
+.mi_body {
+    margin-top: 1em;
+    font-size: 0.8em;
+    max-height: 200px;
+    overflow-y: scroll;
 }
