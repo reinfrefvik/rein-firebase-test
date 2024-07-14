@@ -13,21 +13,11 @@
   display: flex;
   align-items: center;
 }
-.logo {
-  margin: 0;
-  font-size: 2em;
-  font-weight: bold;
-}
 
 .logo-img {
   width: 60px;
   height: 60px;
   border-radius: 5px;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
 }
 
 .user-settings {
@@ -42,7 +32,12 @@
 .user-settings:hover {
   text-shadow: 0 0 0.1em #00000030;
 }
-  
+
+.burger_menu_container {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
 .user-menu {
   z-index: 1000;
   position: absolute;
@@ -56,46 +51,26 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.user-menu-item {
-  padding: 5px 10px;
-  cursor: pointer;
-  color: black;
-}
-
 .nav-items {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
 }
 
 .nav-item {
-  margin: 0 10px;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  color: black;
+  margin: 10px;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .nav-item:hover {
+  color: #17003d;
   text-shadow: 0 0 0.1em #00000030;
-}
-
-.nav-link {
-  text-decoration: none;
-  color:black;
-}
-
-.sub-menu{
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.sub-menu.expand {
-  display: block;
-}
-
-.sub-menu.collapse {
-  display: none;
 }
 
 .logout-button {
@@ -110,20 +85,6 @@
   background-color: #c0392b;
 }
 
-.user-names {
-  display:fex;
-  flex-direction: column;
-}
-.user-names .user-displayname {
-  font-size: 1.2em;
-  font-weight: bold;
-  text-align: end;
-}
-.user-names .user-email {
-  font-size: 0.8em;
-  color: #00000080;
-  text-align: end;
-}
 .user-img {
   width: 40px;
   height: 40px;

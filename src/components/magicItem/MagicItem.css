@@ -1,4 +1,4 @@
-.add_magic_item_form_card {
+.ami_form_card {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -10,20 +10,71 @@
     border-radius: 5px;
 }
 
-.add-magic-item-form {
+.ami_form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     min-width: 200px;
-    width: 20vw;
     margin: 0;
     padding: 0;
 }
 
-.mi_list_card {
+.ami_header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.ami_hide {
+    display:none;
+}
+
+.ami_show {
+    display:block;
+}
+
+.ami_attunement {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ami_attunement_text {
+    font-size: 0.8em;
+    color: 777777;
+}
+
+.ami_attunement_input {
+    width: min-content;
+}
+
+.ami_description {
+    margin-top: 1em;
+    width: 100%;
+}
+
+.ami_description_input {
+    width: 100%;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.ami_submit {
+    width: 100%;
+    margin-top: 1em;
+}
+
+.ami_submit_button {
+    width: 100%;
+}
+
+.mi_list_card {
+    display: flex;
+    flex-direction: column;
     justify-content: start;
     align-items: start;
     width: 100%;
@@ -41,6 +92,8 @@
     padding: 16px;
     background-color: white;
     border-radius: 5px;
+
+    cursor: pointer;
 }
 
 .mi_title {

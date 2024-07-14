@@ -6,6 +6,8 @@ import { AuthContext } from '../../contexts/authContexts';
 import { Login } from '../login';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/fatrat_logo.png';
+import burger_open from '../../assets/burger_open.png';
+import burger_close from '../../assets/burger_close.png';
 
 interface HeaderProps {
   
@@ -14,20 +16,17 @@ interface HeaderProps {
 interface NavbarItem {
   id: number;
   title: string;
-  navLink?: string;
-  expand: boolean;
+  navLink: string;
 }
 
 const Header: React.FC<HeaderProps> = () => {
   const {user} = useContext(AuthContext);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [expandedItems, setExpandedItems] = useState<number[]>([]);
 
   const navbarItems: NavbarItem[] = [
-    { id: 1, title: 'Home', navLink: '/', expand: false },
-    { id: 2, title: 'Profile', navLink:'/profile', expand: false },
-    { id: 3, title: 'Items', navLink:'/magicitems', expand: false },
-    { id: 4, title: 'Rooms', expand: true },
+    { id: 1, title: 'Home', navLink: '/',},
+    { id: 2, title: 'Profile', navLink:'/profile' },
+    { id: 3, title: 'Items', navLink:'/magicitems' },
   ];
 
   const toggleUserMenu = () => {
@@ -36,69 +35,28 @@ const Header: React.FC<HeaderProps> = () => {
     console.log(showUserMenu);
   };
 
-  const handleNavbarItemClick = (id: number) => {
-    const item = navbarItems.find((item) => item.id === id);
-    if (item) {
-      if(item.expand === false || item.id === expandedItems[0]) {
-        setExpandedItems([]);
-      } else {
-        setExpandedItems([id]);
-      }
-    } else {
-      setExpandedItems([]);
-    }
-  }
-
   return (
     <header className="header">
-      <div className="logo-container">
+      <Link className="logo-container" to="/">
         <img src={logo} alt="Fat Rat Logo" className="logo-img" />
-        <h1 className="logo">FATRAT</h1>
-      </div>
-      <div className="nav">
-        <div className="nav-items">
-          {navbarItems.map((item) => (
-            <div className="nav-item" key={item.id} onClick={() => handleNavbarItemClick(item.id)}>
-              { item.navLink ? 
-                <Link className="nav-link" to={item.navLink}>{item.title}</Link>
-                :
-                <span>{item.title}</span>
-                }
-              </div>
-              ))}
-        </div>
-        <div className={`sub-menu ${expandedItems.length > 0 ? 'expand' : 'collapse'}`}>
-          <div className="sub-menu-item">Sub Menu Item 1</div>
-        </div>
-      </div>
-      <div className="user-info">
-        <div className="user-settings" onClick={toggleUserMenu}>
-          {!! user ? 
-            <>
-              <div className='user-names'>
-                { user.displayName && <div className='user-displayname'> {user.displayName}</div> }
-                <div className='user-email'>{ user.email }</div>
-              </div>
-              <img className='user-img' src={!!user?.photoURL ? user.photoURL : 'https://picsum.photos/200'} alt="userLogo" />
-            </>
-          :
-          <span>Log in</span>
-          }
-
+      </Link>
+      <div className="user-settings" onClick={toggleUserMenu}>
+        <div> {!!user ? (user.displayName ?? "UserName") : "No User"} </div>
+        <div className="burger_menu_container">
+          <img src={!showUserMenu ? burger_open : burger_close} alt="burger_menu" className="burger_menu_icon"/>
         </div>
       </div>
       {showUserMenu && (
         <div className="user-menu">
           {!!user ? (
-            <>
-              <div className="user-menu-item">Profile</div>
-              <div className="user-menu-item">Settings</div>
-              <div className="user-menu-item"><Login/></div>
-            </>
+            <div className="nav-items">
+              {navbarItems.map((item) => (
+                <Link key={item.id} className='nav-item' to={item.navLink}>{item.title}</Link>
+              ))}
+              <div className='nav-item'><Login/></div>
+            </div>
           ) : (
-            <>
-              <div className="user-menu-item"><Link to="login">Log in</Link></div>
-            </>
+            <Link className='nav-item' to="login">Log in</Link>
           )}
         </div>
       )}

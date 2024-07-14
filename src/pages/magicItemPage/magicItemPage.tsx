@@ -1,15 +1,24 @@
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, doc, addDoc, getDocs, deleteDoc } from "firebase/firestore";
 import {db} from '../../Firebase.js';
 import React, { useContext, useEffect, useState } from 'react';
 import './MagicItemPage.css'; // Import your CSS file for styling
 import { AuthContext } from '../../contexts/authContexts';
-import { MagicItemList, magicItem } from '../../components/magicItem/magicItem';
+import { MagicItemList, magicItem } from '../../components/magicItem/magicItems';
 
 const MagicItemPage = () => {
   const {user} = useContext(AuthContext);
   const [itemList, setItemList] = useState(Array<any>);
 
 
+  const deleteMagicItem = async (id: any) => {
+    console.log(id);
+    try {
+      const docRef = await deleteDoc(doc(db, "magic_items", id));
+      console.log("Attempting Delete: ", docRef);
+    } catch (e) {
+      console.log("Error Deleting: ", e);
+    }
+  }
   
   const addMagicItem = async (item: magicItem) => {
     console.log(item.mi_title);
@@ -57,7 +66,7 @@ const MagicItemPage = () => {
 
   return (
     <div className='profile-body'>
-        <MagicItemList items={itemList} addMagicItem={addMagicItem}/>
+        <MagicItemList items={itemList} addMagicItem={addMagicItem} delMagicItem={deleteMagicItem}/>
     </div>
   );
 };

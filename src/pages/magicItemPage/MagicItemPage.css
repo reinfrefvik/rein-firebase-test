@@ -1,75 +1,9 @@
 .profile-body {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: start;
     width: 100%;
-    height: 100%;
     margin: 0;
     padding: 0;
-}
-
-.profile-card {
-    justify-content: center;;
-    padding: 20px;
-    background-color: white;
-    border-radius: 5px;
-    margin-top: 3vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.add-card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 5px;
-}
-
-.list-card {
-    border: 1 1 red;
-    width: 100%;
-    margin: 5px;
-}
-
-.card-title {
-    font-weight: bold;
-}
-
-.card-body {
-    display: flex;
-    flex-direction: row;
-}
-
-.form-container {
-    padding-top: 30px;
-    margin: 20px
-}
-.profile-form {
-    width: 100%;
-}
-.form-label {
-    text-align: start;
-}
-
-.form-group {
-    padding-top: 10px;
-}
-
-.form-submit {
-    width: 100%;
-    padding-top: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-
-}
-
-.submit-btn {
-}
-
-input {
-    padding: 5px;
-    margin: 2px;
 }
