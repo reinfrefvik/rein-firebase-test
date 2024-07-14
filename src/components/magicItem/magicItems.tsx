@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './MagicItem.css'; // Import your CSS file
 import { AddMagicItem } from './addMagicItemForm';
+import { ItemModal } from './magicItemModal';
 
 type magicItem = {
     id?: any,
@@ -12,7 +13,7 @@ type magicItem = {
 
 interface magicItemProps {
     item: magicItem,
-    getId?: (id:any)=>any,
+    getItem?: (id:any)=>any,
 }
 
 const MagicItem = (props: magicItemProps) => {
@@ -21,12 +22,12 @@ const MagicItem = (props: magicItemProps) => {
     const attunement = props.item.mi_attunement;
     const description = props.item.mi_description;
 
-    const getId = () => {
-        props.getId(props.item.id);
+    const getItem = () => {
+        props.getItem(props.item);
     }
    
     return (
-        <div className="mi_card" onClick={getId}>
+        <div className="mi_card" onClick={getItem}>
             <div className="mi_title">
                 {title}
             </div>
@@ -48,15 +49,28 @@ interface magicItemListProps {
 }
 
 const MagicItemList = (props:magicItemListProps) => {
-    const getItemId = (id: any) => {
-        // props.delMagicItem(id);¨
+    const [modalItem, setModalItem] = useState(null);
+
+    const getItemId = (item: any) => {
+        console.log(item);
+        setModalItem(item);
+    };
+
+    const onDelete = (id: any) => {
+        props.delMagicItem(id);
+        setModalItem(null);
+    };
+
+    const onFavourite = (id: any) => {
         console.log(id);
-    }
+    };
+
     return (
-        <div className='mi_list_card'>
+        <div className='mi_list'>
+            <ItemModal modalItem={modalItem} onClose={()=>setModalItem(null)} onDelete={onDelete} onFavourite={onFavourite}/>
             <AddMagicItem key="add_magic_item_form" addMagicItem={props.addMagicItem}/>
             {props.items.map(item =>
-                <MagicItem key={item.id} item = {item} getId={getItemId}/>
+                <MagicItem key={item.id} item = {item} getItem={getItemId}/>
             )}
         </div>
     )

@@ -7,6 +7,7 @@ import Header from './components/header/Header';
 function App() {
   return (
     <BrowserRouter>
+    <div id="modal"/>
     <div className="App">
       <AuthProvider>
           <Header/>

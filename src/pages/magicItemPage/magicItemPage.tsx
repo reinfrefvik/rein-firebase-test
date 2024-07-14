@@ -5,6 +5,7 @@ import './MagicItemPage.css'; // Import your CSS file for styling
 import { AuthContext } from '../../contexts/authContexts';
 import { MagicItemList, magicItem } from '../../components/magicItem/magicItems';
 
+
 const MagicItemPage = () => {
   const {user} = useContext(AuthContext);
   const [itemList, setItemList] = useState(Array<any>);
@@ -15,6 +16,7 @@ const MagicItemPage = () => {
     try {
       const docRef = await deleteDoc(doc(db, "magic_items", id));
       console.log("Attempting Delete: ", docRef);
+      fetchMagicItems();
     } catch (e) {
       console.log("Error Deleting: ", e);
     }
