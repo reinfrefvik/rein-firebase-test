@@ -27,17 +27,19 @@ const MagicItem = (props: magicItemProps) => {
     }
    
     return (
-        <div className="mi_card" onClick={getItem}>
-            <div className="mi_title">
+        <div className="mi-card-container">
+        <div className="mi-card" onClick={getItem}>
+            <div className="mi-title">
                 {title}
             </div>
-            <div className="mi_type">
+            <div className="mi-type">
                 {type}
                 {attunement ? ' Requires Attunement' : ''}
             </div>
-            <div className="mi_body">
+            <div className="mi-body">
                 {description}
             </div>
+        </div>
         </div>
     );
 }

@@ -9,6 +9,9 @@ import { MagicItemList, magicItem } from '../../components/magicItem/magicItems'
 const MagicItemPage = () => {
   const {user} = useContext(AuthContext);
   const [itemList, setItemList] = useState(Array<any>);
+  const [fullItemList, setFullItemList] = useState(Array<any>);
+  const [searchText, setSearchText] = useState("");
+  const [searching, setSearching] = useState(false);
 
 
   const deleteMagicItem = async (id: any) => {
@@ -51,8 +54,45 @@ const MagicItemPage = () => {
         
         console.log(result);
         setItemList(result);
+        setFullItemList(result);
+        setSearching(false);
     })
   };
+
+  const searchInMagicItems = (e) => {
+    e.preventDefault();
+    console.log("searching");
+
+    if(searchText == "") {
+      return;
+    }
+    
+    const searchResult = [];
+
+    for (let i = 0; i < fullItemList.length; i++) {
+      const itemText = fullItemList[i].mi_title.toLowerCase();
+      if (itemText.search(searchText.toLowerCase()) != -1) {
+        console.log(fullItemList[i].mi_title);
+        searchResult.push(fullItemList[i]);
+      }
+    }
+
+    
+    setSearching(true);
+    setItemList(searchResult);
+  }
+
+  const resetSearch = (e) => {
+    setSearching(false);
+    setSearchText("");
+  
+    e.preventDefault();
+    if(fullItemList.length > 0 ) {
+      setItemList(fullItemList);
+    } else {
+      fetchMagicItems();
+    }
+  }
 
   useEffect(() => {
     fetchMagicItems();
@@ -68,6 +108,18 @@ const MagicItemPage = () => {
 
   return (
     <div className='profile-body'>
+        <div className="mil-search-container">
+          <div className="mil-search">
+            <input name="search_text" placeholder="Search..." value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
+            <button onClick={searchInMagicItems}>Search</button>
+          </div>
+          { searching && 
+          <div className="mil-search-info">
+            <span>Filtering for: "{searchText}"</span>
+            <button onClick={resetSearch}>Reset</button>
+          </div>
+          }
+        </div>
         <MagicItemList items={itemList} addMagicItem={addMagicItem} delMagicItem={deleteMagicItem}/>
     </div>
   );

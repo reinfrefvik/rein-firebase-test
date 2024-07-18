@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './MagicItem.css';
 import { magicItem } from './magicItems';
+import expand_down from '../../assets/expand_circle_down_16.png';
+import expand_up from '../../assets/expand_circle_up_16.png';
 
 
 interface addMagicItemInterface {
@@ -40,6 +42,7 @@ const AddMagicItem = (props:addMagicItemInterface) => {
     };
 
     return (
+        <div className="ami-form-container">
         <div className="ami_form_card">
             <div className="ami_header">
                 <div>Add New Item</div>
@@ -63,6 +66,7 @@ const AddMagicItem = (props:addMagicItemInterface) => {
                     </form>      
                 </div>
             </div>
+        </div>
         </div>
     )
 }
