@@ -6,6 +6,7 @@ interface itemModalProps {
     modalItem,
     onDelete?,
     onFavourite?,
+    onEditSaved?,
     onClose
 }
 
@@ -25,20 +26,37 @@ const ItemModalRead = ({modalItem}) => {
   )
 };
 
-const ItemModalEditing = ({modalItem}) => {
-  const editItem = () => {
+const ItemModalEditing = ({modalItem, onEditSaved}) => {
+  const [titleE, setTitleE] = useState(modalItem.mi_title);
+  const [typeE, setTypeE] = useState(modalItem.mi_type);
+  const [attunementE, setAttunementE] = useState(modalItem.mi_attunement);
+  const [descriptionE, setDescriptionE] = useState(modalItem.mi_description);
 
-  }
+
+  const editItem = (e) => {
+    e.preventDefault();
+    
+    onEditSaved(
+      {
+        mi_title: titleE,
+        mi_type: typeE,
+        mi_attunement: attunementE,
+        mi_description: descriptionE
+      }
+    );
+  };
+
+
   return (
     <>
       <form onSubmit={editItem}>
-        <input name="title" value={modalItem.mi_title} type="text"/>
-        <input name="type" value={modalItem.mi_type} type="text"/>
+        <input name="title" value={titleE} type="text" onChange={(e) => setTitleE(e.target.value)}/>
+        <input name="type" value={typeE} type="text" onChange={(e) => setTypeE(e.target.value)}/>
         <div className="mim-edit-attunement">
           <div>requires attunement? </div>
-          <input name="attunement" type="checkbox"/>
+          <input name="attunement" type="checkbox" checked={attunementE} onChange={(e) => setAttunementE(e.target.checked)}/>
         </div>
-        <textarea name="description" value={modalItem.mi_description}/>
+        <textarea name="description" value={descriptionE} onChange={(e) => setDescriptionE(e.target.value)}/>
         <button type="submit">save</button>
       </form>
     </>
@@ -59,7 +77,8 @@ const ItemModal = (props: itemModalProps) => {
 
     const onEdit = () => {
       setEditing(oldState => !oldState)
-    }
+    };
+  
     const onDelete = () => {
       setEditing(false);
       props.onDelete(props.modalItem.id);
@@ -67,6 +86,11 @@ const ItemModal = (props: itemModalProps) => {
 
     const onFavourite = () => {
       props.onFavourite(props.modalItem.id);
+    }
+
+    const onEditSaved = (obj: any) => {
+      props.onEditSaved(obj, props.modalItem.id);
+      closeModal();
     }
 
     return createPortal(
@@ -77,7 +101,7 @@ const ItemModal = (props: itemModalProps) => {
               !editing ?
               <ItemModalRead modalItem={props.modalItem}/>
               :
-              <ItemModalEditing modalItem={props.modalItem}/>
+              <ItemModalEditing modalItem={props.modalItem} onEditSaved={onEditSaved}/>
             }
             <div className="mim-footer">
               <button className="mim-footer-edit" onClick={onEdit}>{editing ? "cancel" : "edit"}</button>

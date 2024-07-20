@@ -1,6 +1,6 @@
 .profile-body {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -13,7 +13,7 @@
     padding: 20px;
     background-color: white;
     border-radius: 5px;
-    margin-top: 3vh;
+    margin: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
@@ -24,11 +24,19 @@
 
 .card-body {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+.profile-dividers {
+    text-align: start;
+    color: #181818;
+    border-bottom: 2px solid #00000020;
+    margin-bottom: 4px;
+    padding-left: 3px;
 }
 
 .form-container {
-    padding-top: 30px;
+    padding-top: 5px;
     margin: 20px
 }
 .profile-form {
@@ -44,15 +52,12 @@
 
 .form-submit {
     width: 100%;
-    padding-top: 10px;
     display: flex;
     flex-direction: row;
     justify-content: end;
 
 }
 
-.submit-btn {
-}
 
 input {
     padding: 5px;

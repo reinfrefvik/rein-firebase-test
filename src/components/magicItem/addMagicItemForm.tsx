@@ -10,7 +10,7 @@ interface addMagicItemInterface {
 }
 
 const AddMagicItem = (props:addMagicItemInterface) => {
-    const [collapse, setCollapse] = useState(false);
+    const [collapse, setCollapse] = useState(true);
     const [itemTitle, setItemTitle] = useState('');
     const [itemType, setItemType] = useState('');
     const [attunement, setAttunement] = useState(false);

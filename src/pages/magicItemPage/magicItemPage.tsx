@@ -1,4 +1,4 @@
-import { collection, doc, addDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { collection, doc, addDoc, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 import {db} from '../../Firebase.js';
 import React, { useContext, useEffect, useState } from 'react';
 import './MagicItemPage.css'; // Import your CSS file for styling
@@ -23,7 +23,7 @@ const MagicItemPage = () => {
     } catch (e) {
       console.log("Error Deleting: ", e);
     }
-  }
+  };
   
   const addMagicItem = async (item: magicItem) => {
     console.log(item.mi_title);
@@ -40,6 +40,22 @@ const MagicItemPage = () => {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+  };
+
+  const updateMagicItem = async (obj, id) => {
+    console.log("updating: ID: "+id+" OBJ: "+obj);
+    console.log("attempting to update");
+
+    try {
+      const docRef = await updateDoc(doc(db, "magic_items", id), {
+        ...obj
+      });
+      console.log("editing done");
+      fetchMagicItems();
+    } catch (e) {
+      console.error("failed updating: ", e);
+    }
+
   }
   
   const fetchMagicItems = async () => {
@@ -80,7 +96,7 @@ const MagicItemPage = () => {
     
     setSearching(true);
     setItemList(searchResult);
-  }
+  };
 
   const resetSearch = (e) => {
     setSearching(false);
@@ -92,7 +108,7 @@ const MagicItemPage = () => {
     } else {
       fetchMagicItems();
     }
-  }
+  };
 
   useEffect(() => {
     fetchMagicItems();
@@ -104,7 +120,7 @@ const MagicItemPage = () => {
             <span>Fetching User</span>
         </div>
     )
-  }
+  };
 
   return (
     <div className='profile-body'>
@@ -120,7 +136,7 @@ const MagicItemPage = () => {
           </div>
           }
         </div>
-        <MagicItemList items={itemList} addMagicItem={addMagicItem} delMagicItem={deleteMagicItem}/>
+        <MagicItemList items={itemList} addMagicItem={addMagicItem} delMagicItem={deleteMagicItem} editMagicItem={updateMagicItem}/>
     </div>
   );
 };

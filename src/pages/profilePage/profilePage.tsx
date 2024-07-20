@@ -49,6 +49,7 @@ const ProfilePage = () => {
             <div className='card-title'>Edit profile page</div>
             <div className='card-body'>
             <div className='form-container'>
+              <div className='profile-dividers'>User Info:</div>
               <form className='profile-form' onSubmit={submitUserData}>
                 <table className='profile-form'>
                   <tr>
@@ -91,6 +92,7 @@ const ProfilePage = () => {
             </div>
 
             <div className='form-container'>
+              <div className='profile-dividers'>Password:</div>
               <form className='profile-form' onSubmit={submitPassword}>
                 <table>
                   <tr>
@@ -124,7 +126,6 @@ const ProfilePage = () => {
                     </th>
                   </tr>
 
-                  <div className='form-group'/>
                   <tr>
                     <th colSpan={2}>
                       <div className='form-submit'>

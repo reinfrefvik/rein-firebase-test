@@ -28,7 +28,7 @@ const Routers = () => {
                 <Route path="/home" element={<HomePage/>} />
                 <Route path="/profile" element={<ProfilePage/>} />
                 <Route path="/magicitems" element={<MagicItemPage/>} />
-                <Route path="*" element={<Navigate replace to="/home" />} />
+                <Route path="*" element={<Navigate replace to="/magicitems" />} />
             </Routes> 
         )
     }

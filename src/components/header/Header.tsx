@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = () => {
 
   return (
     <header className="header">
-      <Link className="logo-container" to="/">
+      <Link className="logo-container" to="/home">
         <img src={logo} alt="Fat Rat Logo" className="logo-img" />
       </Link>
       <div className="user-settings" onClick={toggleUserMenu}>

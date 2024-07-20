@@ -48,6 +48,7 @@ interface magicItemListProps {
     items: Array<any>,
     addMagicItem: (newItem:magicItem)=>Promise<void>,
     delMagicItem?: (itemId:any)=>Promise<void>;
+    editMagicItem?: (obj: any, id:any)=>Promise<void>;
 }
 
 const MagicItemList = (props:magicItemListProps) => {
@@ -67,9 +68,15 @@ const MagicItemList = (props:magicItemListProps) => {
         console.log(id);
     };
 
+    const onEditSaved = (obj: any, id:any) => {
+        console.log(obj);
+        console.log(id);
+        props.editMagicItem(obj, id);
+    };
+
     return (
         <div className='mi_list'>
-            <ItemModal modalItem={modalItem} onClose={()=>setModalItem(null)} onDelete={onDelete} onFavourite={onFavourite}/>
+            <ItemModal modalItem={modalItem} onClose={()=>setModalItem(null)} onDelete={onDelete} onFavourite={onFavourite} onEditSaved={onEditSaved}/>
             <AddMagicItem key="add_magic_item_form" addMagicItem={props.addMagicItem}/>
             {props.items.map(item =>
                 <MagicItem key={item.id} item = {item} getItem={getItemId}/>
