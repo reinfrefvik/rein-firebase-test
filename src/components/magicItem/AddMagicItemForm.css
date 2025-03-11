@@ -1,0 +1,65 @@
+.ami_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 200px;
+    margin: 0;
+    padding: 0;
+}
+
+.ami_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ami_header div {
+    margin-left: 8px;
+    font-size: 1em;
+}
+
+.ami_hide {
+    display:none;
+}
+
+.ami_show {
+    display:block;
+}
+
+.ami_attunement {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ami_attunement_text {
+    font-size: 0.8em;
+    color: 777777;
+}
+
+.ami_attunement_input {
+    width: min-content;
+}
+
+.ami_description {
+    margin-top: 1em;
+    width: 100%;
+}
+
+.ami_description_input {
+    width: 100%;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.ami_submit {
+    width: 100%;
+    margin-top: 1em;
+}
+
+.ami_submit_button {
+    width: 100%;
+}
