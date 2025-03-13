@@ -1,9 +1,8 @@
 import "./MagicItem.css"; // Import your CSS file
-import { type magicItem } from "../../pages/magicItemPage/magicItemPage";
 
 interface magicItemProps {
-  item: magicItem;
-  getModalItem?: (item: magicItem) => any;
+  item: MagicItemType;
+  getModalItem?: (item: MagicItemType) => any;
 }
 
 const MagicItem = (props: magicItemProps) => {

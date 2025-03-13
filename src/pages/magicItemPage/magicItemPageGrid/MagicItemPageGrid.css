@@ -1,0 +1,10 @@
+.mip-grid-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 440px;
+    min-height: 40px;
+    margin: 0;
+    padding: 0;
+}

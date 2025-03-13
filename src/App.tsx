@@ -1,19 +1,19 @@
-import './App.css';
-import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from './contexts/authContexts';
-import Routers from './Routers';
-import Header from './components/header/Header';
+import "./App.css";
+import { BrowserRouter, BrowserRouter as Router } from "react-router-dom";
+import { AuthProvider } from "./contexts/authContexts";
+import Routers from "./Routers";
+import { Header } from "./components/header/Header";
 
 function App() {
   return (
     <BrowserRouter>
-    <div id="modal"/>
-    <div className="App">
-      <AuthProvider>
-          <Header/>
+      <div id="modal" />
+      <div className="App">
+        <AuthProvider>
+          <Header />
           <Routers />
-      </AuthProvider>
-    </div>
+        </AuthProvider>
+      </div>
     </BrowserRouter>
   );
 }

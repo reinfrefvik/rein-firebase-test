@@ -1,10 +1,9 @@
 import { useState } from "react";
 import "./MagicItemModal.css";
-import { type magicItem } from "../../pages/magicItemPage/magicItemPage";
 import { createPortal } from "react-dom";
 
 interface itemModalProps {
-  modalItem: magicItem;
+  modalItem: MagicItemType;
   onDelete?;
   onFavourite?;
   onEditSaved?;
@@ -101,7 +100,7 @@ const ItemModal = (props: itemModalProps) => {
     props.onFavourite(props.modalItem.id);
   };
 
-  const onEditSaved = (obj: magicItem) => {
+  const onEditSaved = (obj: MagicItemType) => {
     props.onEditSaved(obj, props.modalItem.id);
     closeModal();
   };

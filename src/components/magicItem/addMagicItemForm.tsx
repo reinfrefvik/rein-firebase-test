@@ -1,10 +1,9 @@
 import { useState } from "react";
 import "./MagicItem.css";
 import "./AddMagicItemForm.css";
-import { type magicItem } from "../../pages/magicItemPage/magicItemPage";
 
 interface addMagicItemInterface {
-  addMagicItem: (newItem: magicItem) => Promise<void>;
+  addMagicItem: (newItem: MagicItemType) => Promise<void>;
 }
 
 const AddMagicItem = (props: addMagicItemInterface) => {
@@ -21,7 +20,7 @@ const AddMagicItem = (props: addMagicItemInterface) => {
       return;
     }
 
-    const newItem: magicItem = {
+    const newItem: MagicItemType = {
       mi_title: itemTitle,
       mi_type: itemType,
       mi_attunement: attunement,

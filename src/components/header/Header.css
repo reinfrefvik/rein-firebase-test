@@ -41,8 +41,10 @@
 .user-menu {
   z-index: 1000;
   position: absolute;
-  top: 100%;
+  top: 0;
   right: 0;
+  height: 100vh;
+  width: 80vw;
   background-color: #fff;
   padding: 10px;
   display: flex;
