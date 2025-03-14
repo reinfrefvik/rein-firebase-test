@@ -30,10 +30,13 @@ const Sidebar = (props: SidebarProps) => {
     price: 1,
     img: "img",
   };
-  
+
   return (
     <div className="user-menu">
-      <div className="user-settings" onClick={() => props.setShowUserMenu(false)}>
+      <div
+        className="user-settings"
+        onClick={() => props.setShowUserMenu(false)}
+      >
         <div>
           {" "}
           {!!props.user ? props.user.displayName ?? "UserName" : "No User"}{" "}
@@ -49,7 +52,12 @@ const Sidebar = (props: SidebarProps) => {
       {!!props.user ? (
         <div className="nav-items">
           {props.navBarItems.map((item) => (
-            <Link key={item.id} className="nav-item" to={item.navLink}>
+            <Link
+              key={item.id}
+              className="nav-item"
+              to={item.navLink}
+              onClick={() => props.setShowUserMenu(false)}
+            >
               {item.title}
             </Link>
           ))}

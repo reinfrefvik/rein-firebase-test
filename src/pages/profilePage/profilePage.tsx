@@ -21,7 +21,6 @@ const ProfilePage = () => {
   console.log(user)
   let displayName = user.displayName;
   let email = user.email;
-  let photoURL = user.photoURL;
 
   const submitUserData = (e) => {
     e.preventDefault();
