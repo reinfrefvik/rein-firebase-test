@@ -58,8 +58,18 @@
 
 }
 
+.submit-btn {
+    background-color: green;
+}
+
+.submit-btn:disabled{
+    background-color: darkgray;
+    color: grey;
+    pointer-events: none;
+}
 
 input {
     padding: 5px;
     margin: 2px;
 }
+

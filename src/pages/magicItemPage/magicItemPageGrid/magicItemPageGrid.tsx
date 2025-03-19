@@ -11,7 +11,8 @@ const MagicItemGrid = ({ children }) => {
   let columnCount = 0;
   let columns = [];
 
-  console.log("WHAT", children)
+  children = children.flat();
+  console.log("WHAT", children);
 
   if (width < 1000) {
     columnCount = 1;

@@ -13,39 +13,8 @@ import { AuthContext } from "../../contexts/authContexts";
 import { MagicItem } from "../../components/magicItem/magicItem";
 import { ItemModal } from "../../components/magicItem/magicItemModal";
 import { AddMagicItem } from "../../components/magicItem/addMagicItemForm";
-import useWindowDimensions from "hooks/getScreenDimensions";
 import { MagicItemGrid } from "./magicItemPageGrid/magicItemPageGrid";
-
-interface MagicItemSearchProps {
-  searchText: string;
-  setSearchText: (string) => void;
-  searching: boolean;
-  setSearching: (bool) => void;
-  searchInMagicItems: (e) => void;
-  resetSearch: (e) => void;
-}
-
-const MagicItemSearch = (props: MagicItemSearchProps) => {
-  return (
-      <div className="mil-search-container">
-        <div className="mil-search">
-          <input
-            name="search_text"
-            placeholder="Search..."
-            value={props.searchText}
-            onChange={(e) => props.setSearchText(e.target.value)}
-          />
-          <button onClick={props.searchInMagicItems}>Search</button>
-        </div>
-        {props.searching && (
-          <div className="mil-search-info">
-            <span>Filtering for: "{props.searchText}"</span>
-            <button onClick={props.resetSearch}>Reset</button>
-          </div>
-        )}
-      </div>
-  );
-};
+import { MagicItemSearch } from "./magicItemPageSearch/magicItemPageSearch";
 
 const MagicItemPage = () => {
   const { user } = useContext(AuthContext);
@@ -168,24 +137,6 @@ const MagicItemPage = () => {
     );
   }
 
-  let itemListTemp = [
-    <MagicItemSearch
-      key="magic_item_search"
-      searchText={searchText}
-      setSearchText={setSearchText}
-      searching={searching}
-      setSearching={setSearching}
-      searchInMagicItems={searchInMagicItems}
-      resetSearch={resetSearch}
-    />,
-    <AddMagicItem key="add_magic_item_form" addMagicItem={addMagicItem} />,
-  ];
-  itemList.forEach((item) => {
-    itemListTemp.push(
-      <MagicItem key={item.id} item={item} getModalItem={getModalItem} />
-    );
-  });
-
   return (
     <>
       <ItemModal
@@ -195,7 +146,21 @@ const MagicItemPage = () => {
         onEditSaved={updateMagicItem}
       />
       <div className="mil-body">
-        <MagicItemGrid>{itemListTemp}</MagicItemGrid>
+        <MagicItemGrid>
+          <MagicItemSearch
+            key="magic_item_search"
+            searchText={searchText}
+            setSearchText={setSearchText}
+            searching={searching}
+            setSearching={setSearching}
+            searchInMagicItems={searchInMagicItems}
+            resetSearch={resetSearch}
+          />
+          <AddMagicItem key="add_magic_item_form" addMagicItem={addMagicItem} />
+          {itemList.map((item) => (
+            <MagicItem key={item.id} item={item} getModalItem={getModalItem} />
+          ))}
+        </MagicItemGrid>
       </div>
     </>
   );

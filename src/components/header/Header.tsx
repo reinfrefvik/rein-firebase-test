@@ -1,6 +1,6 @@
 // Header.tsx
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Header.css"; // Import your CSS file
 import { AuthContext } from "../../contexts/authContexts";
 import { Login } from "../login";
@@ -23,14 +23,6 @@ interface SidebarProps {
 }
 
 const Sidebar = (props: SidebarProps) => {
-  const stuff: Stuffies = {
-    id: 1,
-    name: "name",
-    description: "description",
-    price: 1,
-    img: "img",
-  };
-
   return (
     <div className="user-menu">
       <div
@@ -38,8 +30,7 @@ const Sidebar = (props: SidebarProps) => {
         onClick={() => props.setShowUserMenu(false)}
       >
         <div>
-          {" "}
-          {!!props.user ? props.user.displayName ?? "UserName" : "No User"}{" "}
+          {!!props.user ? props.user.displayName ?? "UserName" : "No User"}
         </div>
         <div className="burger_menu_container">
           <img
@@ -62,11 +53,15 @@ const Sidebar = (props: SidebarProps) => {
             </Link>
           ))}
           <div className="nav-item">
-            <Login />
+            <Login onClickAction={() => props.setShowUserMenu(false)} />
           </div>
         </div>
       ) : (
-        <Link className="nav-item" to="login">
+        <Link
+          className="nav-item"
+          to="login"
+          onClick={() => props.setShowUserMenu(false)}
+        >
           Log in
         </Link>
       )}
@@ -95,6 +90,7 @@ const Header: React.FC<HeaderProps> = () => {
       </Link>
       <div className="user-settings" onClick={() => setShowUserMenu(true)}>
         <div> {!!user ? user.displayName ?? "UserName" : "No User"} </div>
+        {!!user ? user.photoURL && <img src={user.photoURL} alt="user" width={25} height={25} /> : null}
         <div className="burger_menu_container">
           <img
             src={!showUserMenu ? burger_open : burger_close}
