@@ -3,7 +3,7 @@ import { AuthContext } from "./contexts/authContexts";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { HomePage } from "./pages/homePage";
 import LoginPage from "./pages/loginPage/loginPage";
-import RegistrationForm from "./pages/registrationForm/registrationForm";
+import { RegistrationForm } from "./pages/registrationForm/registrationForm";
 import ProfilePage from "./pages/profilePage/profilePage";
 import { MagicItemPage } from "./pages/magicItemPage/magicItemPage";
 
@@ -23,7 +23,7 @@ const Routers = () => {
       );
     }
 
-    if(!user.displayName) {
+    if (!user.displayName) {
       return (
         <Routes>
           <Route path="/profile" element={<ProfilePage />} />

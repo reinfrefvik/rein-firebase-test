@@ -57,21 +57,20 @@ const AuthProvider = ({ children }) => {
   };
 
   //CREATE USER
-  const createUser = async (email, password, userName?) => {
-    console.log("createUser");
-    var finished = false;
+  const createUser = async (email: string, password: string) => {
     const errors = [];
-    const newPhotoUrl = `https://picsum.photos/id/${Math.floor(
-      Math.random() * 500
-    )}/200/300`;
 
     await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        finished = true;
-      })
       .catch((error) => {
         console.log(error);
         errors.push(error);
+      })
+      .then(() => {
+        if (errors.length === 0) {
+          console.log("User created");
+        } else {
+          console.log("error creating user");
+        }
       });
   };
 
