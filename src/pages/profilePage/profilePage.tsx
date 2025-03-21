@@ -74,7 +74,7 @@ const ProfilePage = () => {
     return (
       <div className="profile-body">
         <div className="profile-card">
-          <div className="card-title">Edit profile page</div>
+          <div className="card-title">Edit User</div>
           <div className="card-body">
             <div className="form-container">
               <div className="profile-dividers">User Info:</div>

@@ -73,16 +73,6 @@ const AuthProvider = ({ children }) => {
         console.log(error);
         errors.push(error);
       });
-
-    if (finished) {
-      await updateProfile(auth.currentUser, {
-        displayName: userName,
-        photoURL: newPhotoUrl,
-      }).catch((error) => {
-        console.log(error);
-        errors.push(error);
-      });
-    }
   };
 
   //UPDATE USER
@@ -113,6 +103,9 @@ const AuthProvider = ({ children }) => {
     await updateProfile(auth.currentUser, userObj)
       .then(() => {
         result = true;
+        setUser((oldUser) => {
+          return { ...oldUser, ...userObj };
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -123,19 +116,19 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // how do I make this trigger every time I make a change to the user?
-    // currently it will set the user every time the user in firebase changes
-    // I need it to run every time I make a change to the user
     setLoading(true);
     onAuthStateChanged(auth, (user) => {
+      console.log("onAuthStateChanged!!");
       if (user) {
-        setUser(user);
+        setUser((oldUser) => {
+          return { ...oldUser, ...user };
+        });
         setLoading(false);
       } else {
         setLoading(false);
       }
     });
-  }, [user]);
+  }, []);
 
   return (
     <AuthContext.Provider

@@ -23,6 +23,15 @@ const Routers = () => {
       );
     }
 
+    if(!user.displayName) {
+      return (
+        <Routes>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="*" element={<Navigate replace to="/profile" />} />
+        </Routes>
+      );
+    }
+
     return (
       <Routes>
         <Route path="/home" element={<HomePage />} />
