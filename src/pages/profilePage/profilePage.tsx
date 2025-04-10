@@ -30,23 +30,15 @@ const ProfilePage = () => {
     e.preventDefault();
     if (editDisplayName.length < 3) {
       alert("Name is too short");
-    }
-    if (editDisplayName.length < 3 && editEmail.length < 3) {
-      alert("Name and Email are too short");
       return;
     }
 
     setIsUpdating(true);
 
-    const result = await updateUser(
-      editEmail.length > 3 ? editEmail : false,
-      false,
-      editDisplayName.length > 3 ? editDisplayName : false,
-      false
-    ).then((result) => {
-      console.log("Updating user result:", result);
+    const result = await updateUser({ displayName: editDisplayName });
+    if (result) {
       setIsUpdating(false);
-    });
+    }
   };
 
   const submitPassword = (e) => {

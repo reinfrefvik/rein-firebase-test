@@ -1,10 +1,13 @@
 import {
   collection,
+  setDoc,
   doc,
   getDocs,
   addDoc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "Firebase.js";
 
@@ -15,6 +18,7 @@ export interface Item {
 }
 
 export type CollectionName = "magic_items" | "users";
+export type CollectionRelationName = "magic_item_favourites";
 
 // Fetch all items
 export const fetchItems = async <T>(table: CollectionName): Promise<[T]> => {
@@ -68,6 +72,58 @@ export const updateItem = async (
     return true;
   } catch (e) {
     console.error("Error updating document: ", e);
+    return false;
+  }
+};
+
+export const addToRelationTable = async (
+  table: CollectionRelationName,
+  value1: string,
+  value2: string
+): Promise<string | false> => {
+  const relationId = `${value1}-${value2}`;
+
+  const item = {
+    value1,
+    value2,
+    createdAt: new Date(),
+  };
+
+  try {
+    await setDoc(doc(db, table, relationId), item);
+    console.log("Relation added with ID: ", relationId);
+    return relationId;
+  } catch (e) {
+    console.error("Error adding relation: ", e);
+    return false;
+  }
+};
+
+export const fetchRelationItems = async (
+  table: CollectionRelationName,
+  value1: string
+): Promise<any[]> => {
+  const q = query(collection(db, table), where("value1", "==", value1));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+};
+
+export const deleteFromRelationTable = async (
+  table: CollectionRelationName,
+  value1: string,
+  value2: string
+): Promise<boolean> => {
+  const relationId = `${value1}-${value2}`;
+
+  try {
+    await deleteDoc(doc(db, table, relationId));
+    console.log("Relation deleted with ID: ", relationId);
+    return true;
+  } catch (e) {
+    console.error("Error deleting relation: ", e);
     return false;
   }
 };

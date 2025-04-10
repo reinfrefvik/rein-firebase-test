@@ -1,53 +1,62 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useMemo,
+} from "react";
 import { auth } from "../Firebase.js";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   updateProfile,
+  User,
 } from "firebase/auth";
 
+const getRandomAvatar = () =>
+  `https://picsum.photos/id/${Math.floor(Math.random() * 500)}/200/300`;
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+interface UpdateUserProps {
+  displayName?: string;
+  photoURL?: string;
+}
 interface AuthContextProps {
   isLoading: boolean;
-  user: any;
+  user: User | null;
   signOut: () => void;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<boolean>;
   createUser: (
     email: string,
     password: string,
     userName?: string
   ) => Promise<void>;
-  updateUser: (
-    email?: any,
-    password?: any,
-    displayName?: any,
-    photoUrl?: any
-  ) => Promise<boolean>;
+  updateUser: (params: UpdateUserProps) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
 
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setLoading] = useState(true);
 
   //SIGN IN
-  const signIn = async (email: string, password: string): Promise<any> => {
-    const result = await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        setUser(user);
-        return { user: userCredential.user, error: [] };
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        return { user: null, error: [errorCode, errorMessage] };
-      });
-
-    return result;
+  const signIn = async (email: string, password: string): Promise<boolean> => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setUser(userCredential.user);
+      return true;
+    } catch (error) {
+      console.error("Error signing in:", error);
+      throw error;
+    }
   };
 
   //SIGN OUT
@@ -58,84 +67,78 @@ const AuthProvider = ({ children }) => {
 
   //CREATE USER
   const createUser = async (email: string, password: string) => {
-    const errors = [];
+    const userName = email.split("@")[0];
+    const photoURL = getRandomAvatar();
 
-    await createUserWithEmailAndPassword(auth, email, password)
-      .catch((error) => {
-        console.log(error);
-        errors.push(error);
-      })
-      .then(() => {
-        if (errors.length === 0) {
-          console.log("User created");
-        } else {
-          console.log("error creating user");
-        }
-      });
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userName) {
+        await updateProfile(userCredential.user, {
+          displayName: userName,
+          photoURL: photoURL,
+        });
+      }
+      setUser({ ...userCredential.user, displayName: userName, photoURL });
+    } catch (error: any) {
+      console.error("Error creating user:", error.code, error.message);
+      throw error;
+    }
   };
 
   //UPDATE USER
-  const updateUser = async (
-    email?,
-    password?,
-    displayName?,
-    photoUrl?
-  ): Promise<boolean> => {
-    // We don't update email for dev reasons
-    // const newEmail = email ?? user.email;
-    const newDisplayName = displayName ?? user.displayName;
-    if (!user.photoURL) {
-      photoUrl = `https://picsum.photos/id/${Math.floor(
-        Math.random() * 500
-      )}/200/300`;
-    } else {
-      photoUrl = user.photoURL;
-    }
+  const updateUser = async ({
+    displayName,
+  }: UpdateUserProps): Promise<boolean> => {
+    if (!auth.currentUser) return false;
 
-    const userObj = {
-      displayName: newDisplayName,
-      photoURL: photoUrl,
-    };
+    const newDisplayName = displayName ?? auth.currentUser.displayName;
+    const newPhotoURL = auth.currentUser.photoURL ?? getRandomAvatar();
 
-    var result = false;
-
-    await updateProfile(auth.currentUser, userObj)
-      .then(() => {
-        result = true;
-        setUser((oldUser) => {
-          return { ...oldUser, ...userObj };
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        result = false;
+    try {
+      await updateProfile(auth.currentUser, {
+        displayName: newDisplayName,
+        photoURL: newPhotoURL,
       });
-
-    return result;
+      setUser((oldUser) =>
+        oldUser
+          ? { ...oldUser, displayName: newDisplayName, photoURL: newPhotoURL }
+          : null
+      );
+      return true;
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      return false;
+    }
   };
 
   useEffect(() => {
     setLoading(true);
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log("onAuthStateChanged!!");
-      if (user) {
-        setUser((oldUser) => {
-          return { ...oldUser, ...user };
-        });
-        setLoading(false);
-      } else {
-        setLoading(false);
-      }
+      setUser(user);
+      setLoading(false);
     });
+
+    return () => unsubscribe(); // Cleanup
   }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{ isLoading, user, signOut, signIn, createUser, updateUser }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      isLoading,
+      user,
+      signOut,
+      signIn,
+      createUser,
+      updateUser,
+    }),
+    [isLoading, user]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContext, AuthProvider };

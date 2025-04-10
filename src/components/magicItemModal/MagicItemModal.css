@@ -62,21 +62,3 @@
 .mim-footer-delete:hover {
     background-color: rgb(110, 22, 22);
 }
-
-.mim-edit-attunement {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.mim-edit-attunement input {
-    width: min-content;
-}
-
-.mim-edit-description {
-    margin-top: 1em;
-    width: 100%;
-    min-height: 200px;
-}

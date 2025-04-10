@@ -1,6 +1,12 @@
-import { forwardRef, use, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./MagicItemModal.css";
 import { createPortal } from "react-dom";
+import { EditFormHandle, ItemModalEditing } from "./magicItemModalEdit";
+import { useAuthUser } from "contexts/useAuth";
+import {
+  addToRelationTable,
+  fetchRelationItems,
+} from "services/firebaseService";
 
 interface itemModalProps {
   modalItem: MagicItemType;
@@ -23,80 +29,25 @@ const ItemModalRead = ({ modalItem }) => {
   );
 };
 
-type EditFormHandle = {
-  submit: (e: React.FormEvent) => void;
-};
-
-type EditFormTypes = {
-  modalItem: MagicItemType;
-  onEditSaved: (obj: MagicItemType) => void;
-};
-
-const ItemModalEditing = forwardRef<EditFormHandle, EditFormTypes>(
-  ({ modalItem, onEditSaved }, ref) => {
-    const [titleE, setTitleE] = useState(modalItem.mi_title);
-    const [typeE, setTypeE] = useState(modalItem.mi_type);
-    const [attunementE, setAttunementE] = useState(modalItem.mi_attunement);
-    const [descriptionE, setDescriptionE] = useState(modalItem.mi_description);
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-
-      onEditSaved({
-        mi_title: titleE,
-        mi_type: typeE,
-        mi_attunement: attunementE,
-        mi_description: descriptionE,
-      });
-    };
-
-    useImperativeHandle(ref, () => ({
-      submit: handleSubmit,
-    }));
-
-    return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <input
-            name="title"
-            value={titleE}
-            type="text"
-            onChange={(e) => setTitleE(e.target.value)}
-          />
-          <input
-            name="type"
-            value={typeE}
-            type="text"
-            onChange={(e) => setTypeE(e.target.value)}
-          />
-          <div className="mim-edit-attunement">
-            <div>requires attunement? </div>
-            <input
-              name="attunement"
-              type="checkbox"
-              checked={attunementE}
-              onChange={(e) => setAttunementE(e.target.checked)}
-            />
-          </div>
-          <textarea
-            className="mim-edit-description"
-            name="description"
-            value={descriptionE}
-            onChange={(e) => setDescriptionE(e.target.value)}
-          />
-        </form>
-      </>
-    );
-  }
-);
-
 const ItemModal = (props: itemModalProps) => {
   const [domReady, setDomReady] = useState(false);
   const [editing, setEditing] = useState(false);
   const formRef = useRef<EditFormHandle>(null);
-  
+
+  const user = useAuthUser();
+  const userId = user?.uid;
+
+  const handleFavourite = (e) => {
+    e.preventDefault();
+    const result = addToRelationTable(
+      "magic_item_favourites",
+      userId,
+      props.modalItem.id
+    );
+  };
+
   useEffect(() => {
-    setDomReady(true)
+    setDomReady(true);
   }, []);
   const handleSave = (e) => {
     e.preventDefault();
@@ -117,8 +68,11 @@ const ItemModal = (props: itemModalProps) => {
     props.onDelete(props.modalItem.id);
   };
 
-  const onFavourite = () => {
-    props.onFavourite(props.modalItem.id);
+  const onFavourite = async (e) => {
+    handleFavourite(e);
+    // props.onFavourite(props.modalItem.id);
+    const favourites = await fetchRelationItems("magic_item_favourites", userId);
+    console.log(favourites);
   };
 
   const onEditSaved = (obj: MagicItemType) => {
@@ -126,7 +80,6 @@ const ItemModal = (props: itemModalProps) => {
     closeModal();
   };
 
- 
   if (props.modalItem == null) return null;
   if (!domReady) return null;
   return createPortal(
@@ -148,7 +101,10 @@ const ItemModal = (props: itemModalProps) => {
                 Save
               </button>
             )}
-            <button className={editing ? "mim-footer-delete" : "mim-footer-edit"} onClick={onEdit}>
+            <button
+              className={editing ? "mim-footer-delete" : "mim-footer-edit"}
+              onClick={onEdit}
+            >
               {editing ? "cancel" : "edit"}
             </button>
             <button className="mim-footer-favourite" onClick={onFavourite}>

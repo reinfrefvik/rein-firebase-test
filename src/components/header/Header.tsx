@@ -1,8 +1,8 @@
 // Header.tsx
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./Header.css"; // Import your CSS file
-import { AuthContext } from "../../contexts/authContexts";
+import { useAuthUser } from "contexts/useAuth";
 import { Login } from "../login";
 import { Link } from "react-router-dom";
 import logo from "../../assets/fatrat_logo.png";
@@ -72,7 +72,7 @@ const Sidebar = (props: SidebarProps) => {
 interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
-  const { user } = useContext(AuthContext);
+  const user = useAuthUser();
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const navbarItems: NavbarItem[] = [
@@ -81,8 +81,6 @@ const Header: React.FC<HeaderProps> = () => {
     { id: 3, title: "Items", navLink: "/magicitems" },
   ];
 
-  console.log("user", user);
-
   return (
     <header className="header">
       <Link className="logo-container" to="/home">
@@ -90,7 +88,11 @@ const Header: React.FC<HeaderProps> = () => {
       </Link>
       <div className="user-settings" onClick={() => setShowUserMenu(true)}>
         <div> {!!user ? user.displayName ?? "UserName" : "No User"} </div>
-        {!!user ? user.photoURL && <img src={user.photoURL} alt="user" width={25} height={25} /> : null}
+        {!!user
+          ? user.photoURL && (
+              <img src={user.photoURL} alt="user" width={25} height={25} />
+            )
+          : null}
         <div className="burger_menu_container">
           <img
             src={!showUserMenu ? burger_open : burger_close}
