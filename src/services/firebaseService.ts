@@ -6,7 +6,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "../Firebase.js";
+import { db } from "Firebase.js";
 
 export interface Item {
   id?: string;

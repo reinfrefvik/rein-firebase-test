@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import "./MagicItemPage.css"; // Import your CSS file for styling
-import { AuthContext } from "../../contexts/authContexts";
-import { MagicItem } from "../../components/magicItem/magicItem";
-import { ItemModal } from "../../components/magicItem/magicItemModal";
-import { AddMagicItem } from "../../components/magicItem/addMagicItemForm";
+import { AuthContext } from "contexts/authContexts";
+import { MagicItem } from "components/magicItem/magicItem";
+import { ItemModal } from "components/magicItemModal/magicItemModal";
+import { AddMagicItem } from "components/magicItem/addMagicItemForm";
 import { MagicItemGrid } from "./magicItemPageGrid/magicItemPageGrid";
 import { MagicItemSearch } from "./magicItemPageSearch/magicItemPageSearch";
 import {
@@ -11,66 +11,68 @@ import {
   addItem,
   updateItem,
   fetchItems,
-} from "../../services/firebaseService";
+} from "services/firebaseService";
 
 const MagicItemPage = () => {
   const { user } = useContext(AuthContext);
-  const [itemList, setItemList] = useState(Array<any>);
-  const [modalItem, setModalItem] = useState(null);
-  const [fullItemList, setFullItemList] = useState(Array<any>);
+  const [itemList, setItemList] = useState<MagicItemType[]>([]);
+  const [modalItem, setModalItem] = useState<MagicItemType | null>(null);
+  const [fullItemList, setFullItemList] = useState<MagicItemType[]>([]);
   const [searchText, setSearchText] = useState("");
   const [searching, setSearching] = useState(false);
 
-  const fetchMagicItems = async () => {
-    if (!user) {
-      return;
-    }
+  const fetchMagicItems = useCallback(async () => {
+    if (!user) return;
 
     const result = await fetchItems<MagicItemType>("magic_items");
     setItemList(result);
     setFullItemList(result);
     setSearching(false);
-  };
+  }, [user]);
 
   const deleteMagicItem = async (id: any) => {
     setModalItem(null);
     setItemList((prev) => prev.filter((item) => item.id !== id));
     setFullItemList((prev) => prev.filter((item) => item.id !== id));
-    await deleteItem(id, "magic_items");
+    const result = await deleteItem(id, "magic_items");
+    if (!result) alert("Error deleting item");
   };
 
   const addMagicItem = async (item: MagicItemType) => {
     const result = await addItem<MagicItemType>(item, "magic_items");
     if (result) {
-      setItemList((prev) => [...prev, result]);
-      setFullItemList((prev) => [...prev, result]);
+      setItemList((prev) => [...prev, result as MagicItemType]);
+      setFullItemList((prev) => [...prev, result as MagicItemType]);
+    } else {
+      alert("Error adding item");
     }
   };
 
   const updateMagicItem = async (obj: MagicItemType, id: string) => {
     const result = await updateItem(obj, id, "magic_items");
     if (result) {
-      fetchMagicItems();
+      setItemList((prev) =>
+        prev.map((item) => (item.id === id ? (obj as MagicItemType) : item))
+      );
+      setFullItemList((prev) =>
+        prev.map((item) => (item.id === id ? (obj as MagicItemType) : item))
+      );
+    } else {
+      alert("Error updating item");
     }
   };
 
   const searchInMagicItems = (e) => {
     e.preventDefault();
 
-    if (searchText === "") {
-      return;
-    }
+    if (!searchText.trim()) return;
 
-    const searchResult = [];
-    for (let i = 0; i < fullItemList.length; i++) {
-      const itemText = fullItemList[i].mi_title.toLowerCase();
-      if (itemText.search(searchText.toLowerCase()) != -1) {
-        searchResult.push(fullItemList[i]);
-      }
-    }
+    const results = fullItemList.filter((item) =>
+      item.mi_title.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     setSearching(true);
-    setItemList(searchResult);
+    setItemList(results);
   };
 
   const resetSearch = (e) => {
@@ -87,7 +89,7 @@ const MagicItemPage = () => {
 
   useEffect(() => {
     fetchMagicItems();
-  }, []);
+  }, [fetchMagicItems]);
 
   if (!user) {
     return (
@@ -118,8 +120,9 @@ const MagicItemPage = () => {
           />
           <AddMagicItem key="add_magic_item_form" addMagicItem={addMagicItem} />
           {itemList.map((item) => (
-            <MagicItem key={item.id} item={item} getModalItem={setModalItem} />
+            <MagicItem key={item.id} item={item as MagicItemType} getModalItem={setModalItem} />
           ))}
+          {itemList.length === 0 && <p>No magic items found.</p>}
         </MagicItemGrid>
       </div>
     </>
