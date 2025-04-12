@@ -8,6 +8,7 @@ import {
   deleteDoc,
   query,
   where,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "Firebase.js";
 
@@ -105,7 +106,7 @@ export const fetchRelationItems = async (
 ): Promise<any[]> => {
   const q = query(collection(db, table), where("value1", "==", value1));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({
+  return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
@@ -126,4 +127,15 @@ export const deleteFromRelationTable = async (
     console.error("Error deleting relation: ", e);
     return false;
   }
+};
+
+export const isInRelationTable = async (
+  table: CollectionRelationName, // or just `string` if not using a type
+  value1: string,
+  value2: string
+): Promise<boolean> => {
+  const relationId = `${value1}-${value2}`;
+  const docRef = doc(db, table, relationId);
+  const snapshot = await getDoc(docRef);
+  return snapshot.exists();
 };

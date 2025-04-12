@@ -3,7 +3,7 @@ import "./MagicItem.css";
 import "./AddMagicItemForm.css";
 
 interface addMagicItemInterface {
-  addMagicItem: (newItem: MagicItemType) => Promise<void>;
+  addMagicItem: (newItem: MagicItemType) => Promise<boolean|MagicItemType>;
 }
 
 const AddMagicItem = (props: addMagicItemInterface) => {
