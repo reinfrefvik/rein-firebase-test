@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
 
-import { RegistrationForm } from "../registrationForm";
+import { UserRegistrationForm } from "../userRegistrationForm";
 
-const meta: Meta<typeof RegistrationForm> = {
+const meta: Meta<typeof UserRegistrationForm> = {
   title: "RegistrationForm",
-  component: RegistrationForm,
+  component: UserRegistrationForm,
   parameters: {},
   tags: ["autodocs"],
 };
@@ -25,7 +24,7 @@ export const Primary: Story = {
         alignItems: "center",
       }}
     >
-      <RegistrationForm />
+      <UserRegistrationForm />
     </div>
   ),
 };

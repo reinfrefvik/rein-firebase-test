@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import "./RegistrationForm.css"; // Import your CSS file for styling
+import "./UserRegistrationForm.css"; // Import your CSS file for styling
 import { AuthContext } from "contexts/authContexts";
 
-const RegistrationForm = () => {
+const UserRegistrationForm = () => {
   const { createUser } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
@@ -66,4 +66,4 @@ const RegistrationForm = () => {
   );
 };
 
-export { RegistrationForm };
+export { UserRegistrationForm };

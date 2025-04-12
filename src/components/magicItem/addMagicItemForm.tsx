@@ -3,7 +3,7 @@ import "./MagicItem.css";
 import "./AddMagicItemForm.css";
 
 interface addMagicItemInterface {
-  addMagicItem: (newItem: MagicItemType) => Promise<boolean|MagicItemType>;
+  addMagicItem: (newItem: MagicItemType) => Promise<boolean | MagicItemType>;
 }
 
 const AddMagicItem = (props: addMagicItemInterface) => {
@@ -12,11 +12,12 @@ const AddMagicItem = (props: addMagicItemInterface) => {
   const [itemType, setItemType] = useState("");
   const [attunement, setAttunement] = useState(false);
   const [itemDescription, setItemDescription] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const addItem = async (e) => {
     e.preventDefault();
 
-    if (itemTitle == "" || itemType == "" || itemDescription == "") {
+    if (itemTitle === "" || itemType === "" || itemDescription === "") {
       return;
     }
 
@@ -26,12 +27,18 @@ const AddMagicItem = (props: addMagicItemInterface) => {
       mi_attunement: attunement,
       mi_description: itemDescription,
     };
-    props.addMagicItem(newItem);
+    const result = await props.addMagicItem(newItem);
 
-    setItemTitle("");
-    setAttunement(false);
-    setItemType("");
-    setItemDescription("");
+    if (!!result) {
+      setItemTitle("");
+      setAttunement(false);
+      setItemType("");
+      setItemDescription("");
+
+      setError(null);
+    } else {
+      setError("Error adding item");
+    }
   };
 
   const toggleCollapse = () => {
@@ -88,6 +95,7 @@ const AddMagicItem = (props: addMagicItemInterface) => {
                 </button>
               </div>
             </form>
+            {error && <div className="ami_error">{error}</div>}
           </div>
         </div>
       </div>
