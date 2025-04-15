@@ -19,7 +19,7 @@ export interface Item {
 }
 
 export type CollectionName = "magic_items" | "users";
-export type CollectionRelationName = "magic_item_favourites";
+export type CollectionRelationName = "magic_item_favorites";
 
 // Fetch all items
 export const fetchItems = async <T>(table: CollectionName): Promise<[T]> => {

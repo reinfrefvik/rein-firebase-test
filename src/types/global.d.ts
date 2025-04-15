@@ -12,5 +12,5 @@ declare type MagicItemType = {
     mi_type: string;
     mi_attunement: boolean;
     mi_description: string;
-    is_favourite?: boolean;
+    is_favorite?: boolean;
   };

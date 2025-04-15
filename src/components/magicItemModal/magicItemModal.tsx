@@ -7,7 +7,6 @@ import { useFavorites } from "hooks/useMagicItemFavourites";
 interface itemModalProps {
   modalItem: MagicItemType;
   onDelete?;
-  onFavourite?;
   onEditSaved?;
   onClose;
 }
@@ -31,12 +30,12 @@ const ItemModal = (props: itemModalProps) => {
   const formRef = useRef<EditFormHandle>(null);
   const { addFavorite, removeFavorite, isFavorited } = useFavorites();
 
-  const handleFavourite = (e) => {
+  const handleFavorite = (e) => {
     e.preventDefault();
     addFavorite(props.modalItem.id, props.modalItem.mi_title);
   };
 
-  const handleUnfavourite = (e) => {
+  const handleUnfavorite = (e) => {
     e.preventDefault();
     removeFavorite(props.modalItem.id);
   };
@@ -101,15 +100,12 @@ const ItemModal = (props: itemModalProps) => {
               {editing ? "cancel" : "edit"}
             </button>
             {isFavorited(props.modalItem.id) ? (
-              <button className="mim-footer-delete" onClick={handleUnfavourite}>
-                Unfavourite
+              <button className="mim-footer-delete" onClick={handleUnfavorite}>
+                Unfavorite
               </button>
             ) : (
-              <button
-                className="mim-footer-favourite"
-                onClick={handleFavourite}
-              >
-                Favourite
+              <button className="mim-footer-favourite" onClick={handleFavorite}>
+                Favorite
               </button>
             )}
             <button className="mim-footer-delete" onClick={onDelete}>

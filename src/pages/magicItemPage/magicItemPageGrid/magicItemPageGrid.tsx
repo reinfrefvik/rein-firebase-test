@@ -7,7 +7,7 @@ const Columns = ({ children }) => {
 };
 
 const MagicItemGrid = ({ children }) => {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   let columnCount = 0;
   let columns = [];
 

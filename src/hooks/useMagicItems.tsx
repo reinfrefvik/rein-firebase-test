@@ -28,7 +28,7 @@ export const useMagicItems = () => {
     const items = await fetchItems<MagicItemType>(MAGIC_ITEM_TABLE) as MagicItemType[];
     const mergedItems: MagicItemType[] = items.map((item: MagicItemType) => ({
         ...item,
-        is_favourite: favoriteIds.has(item.id),
+        is_favorite: favoriteIds.has(item.id),
       }));
 
     setMagicItems(mergedItems);
@@ -63,7 +63,7 @@ export const useMagicItems = () => {
     item: MagicItemType,
     id: string
   ): Promise<boolean> => {
-    delete item.is_favourite;
+    delete item.is_favorite;
     const result = await updateItem(item, id, MAGIC_ITEM_TABLE);
     if (result) {
       setMagicItems((prev) =>
