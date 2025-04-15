@@ -7,6 +7,7 @@ import {
   fetchItems,
   updateItem,
 } from "services/firebaseService";
+import { useFavorites } from "./useMagicItemFavourites";
 
 const MAGIC_ITEM_TABLE = "magic_items" as const;
 
@@ -14,17 +15,27 @@ export const useMagicItems = () => {
   const user = useAuthUser();
   const [magicItems, setMagicItems] = useState<MagicItemType[]>([]);
   const [loading, setLoading] = useState(true);
+  const { favoriteItemIds } = useFavorites();
 
   const userId = user?.uid;
 
-  const refreshMagicItemsHook = useCallback(async () => {
+  const refreshMagicItems = useCallback(async () => {
     if (!userId) return;
 
     setLoading(true);
-    const items = await fetchItems<MagicItemType>(MAGIC_ITEM_TABLE);
-    setMagicItems(items);
+
+    const favoriteIds = new Set(favoriteItemIds);
+    const items = await fetchItems<MagicItemType>(MAGIC_ITEM_TABLE) as MagicItemType[];
+    const mergedItems: MagicItemType[] = items.map((item: MagicItemType) => ({
+        ...item,
+        is_favourite: favoriteIds.has(item.id),
+      }));
+
+    setMagicItems(mergedItems);
+    console.log('Merged Items', mergedItems);
+    
     setLoading(false);
-  }, [userId]);
+  }, [favoriteItemIds, userId]);
 
   const addMagicItem = async (
     item: MagicItemType
@@ -52,6 +63,7 @@ export const useMagicItems = () => {
     item: MagicItemType,
     id: string
   ): Promise<boolean> => {
+    delete item.is_favourite;
     const result = await updateItem(item, id, MAGIC_ITEM_TABLE);
     if (result) {
       setMagicItems((prev) =>
@@ -66,15 +78,16 @@ export const useMagicItems = () => {
   };
 
   useEffect(() => {
-    refreshMagicItemsHook();
-  }, [refreshMagicItemsHook]);
+    console.log("Refreshing magic items");
+    refreshMagicItems();
+  }, [refreshMagicItems]);
 
   return {
     magicItems,
     addMagicItem,
     deleteMagicItem,
     updateMagicItem,
-    refreshMagicItemsHook,
+    refreshMagicItemsHook: refreshMagicItems,
     loading,
   };
 };

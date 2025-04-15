@@ -2,11 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./MagicItemModal.css";
 import { createPortal } from "react-dom";
 import { EditFormHandle, ItemModalEditing } from "./magicItemModalEdit";
-import { useAuthUser } from "contexts/useAuth";
-import {
-  addToRelationTable,
-  fetchRelationItems,
-} from "services/firebaseService";
+import { useFavorites } from "hooks/useMagicItemFavourites";
 
 interface itemModalProps {
   modalItem: MagicItemType;
@@ -33,17 +29,16 @@ const ItemModal = (props: itemModalProps) => {
   const [domReady, setDomReady] = useState(false);
   const [editing, setEditing] = useState(false);
   const formRef = useRef<EditFormHandle>(null);
-
-  const user = useAuthUser();
-  const userId = user?.uid;
+  const { addFavorite, removeFavorite, isFavorited } = useFavorites();
 
   const handleFavourite = (e) => {
     e.preventDefault();
-    const result = addToRelationTable(
-      "magic_item_favourites",
-      userId,
-      props.modalItem.id
-    );
+    addFavorite(props.modalItem.id, props.modalItem.mi_title);
+  };
+
+  const handleUnfavourite = (e) => {
+    e.preventDefault();
+    removeFavorite(props.modalItem.id);
   };
 
   useEffect(() => {
@@ -64,15 +59,13 @@ const ItemModal = (props: itemModalProps) => {
   };
 
   const onDelete = () => {
-    setEditing(false);
-    props.onDelete(props.modalItem.id);
-  };
-
-  const onFavourite = async (e) => {
-    handleFavourite(e);
-    // props.onFavourite(props.modalItem.id);
-    const favourites = await fetchRelationItems("magic_item_favourites", userId);
-    console.log(favourites);
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete ${props.modalItem.mi_title}?`
+    );
+    if (confirmDelete) {
+      setEditing(false);
+      props.onDelete(props.modalItem.id);
+    }
   };
 
   const onEditSaved = (obj: MagicItemType) => {
@@ -107,9 +100,18 @@ const ItemModal = (props: itemModalProps) => {
             >
               {editing ? "cancel" : "edit"}
             </button>
-            <button className="mim-footer-favourite" onClick={onFavourite}>
-              Favourite
-            </button>
+            {isFavorited(props.modalItem.id) ? (
+              <button className="mim-footer-delete" onClick={handleUnfavourite}>
+                Unfavourite
+              </button>
+            ) : (
+              <button
+                className="mim-footer-favourite"
+                onClick={handleFavourite}
+              >
+                Favourite
+              </button>
+            )}
             <button className="mim-footer-delete" onClick={onDelete}>
               Delete
             </button>

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   addToRelationTable,
   deleteFromRelationTable,
   fetchRelationItems,
-  isInRelationTable, // If you added the optional helper
 } from "services/firebaseService";
 import { useAuth } from "contexts/useAuth";
 
@@ -17,7 +16,7 @@ export const useFavorites = () => {
   const userId = user?.uid;
 
   // Fetch favorites for user
-  const fetchFavorites = async () => {
+  const fetchFavorites = useCallback(async () => {
     if (!userId) return;
 
     setLoading(true);
@@ -25,7 +24,7 @@ export const useFavorites = () => {
     const ids = items.map((item) => item.value2);
     setFavoriteItemIds(ids);
     setLoading(false);
-  };
+  }, [userId]);
 
   // Check if an item is favorited
   const isFavorited = (itemId: string): boolean => {
@@ -33,10 +32,17 @@ export const useFavorites = () => {
   };
 
   // Add to favorites
-  const addFavorite = async (itemId: string) => {
+  const addFavorite = async (itemId: string, itemName?: string) => {
     if (!userId) return;
+    if (isFavorited(itemId)) return;
 
-    await addToRelationTable(FAVORITES_TABLE, userId, itemId);
+    await addToRelationTable(
+      FAVORITES_TABLE,
+      userId,
+      itemId,
+      user?.displayName || "",
+      itemName || ""
+    );
     setFavoriteItemIds((prev) => [...prev, itemId]);
   };
 
@@ -49,17 +55,17 @@ export const useFavorites = () => {
   };
 
   // Toggle favorite
-  const toggleFavorite = async (itemId: string) => {
+  const toggleFavorite = async (itemId: string, itemName?: string) => {
     if (isFavorited(itemId)) {
       await removeFavorite(itemId);
     } else {
-      await addFavorite(itemId);
+      await addFavorite(itemId, itemName || undefined);
     }
   };
 
   useEffect(() => {
     fetchFavorites();
-  }, [userId]);
+  }, [fetchFavorites]);
 
   return {
     favoriteItemIds,
@@ -67,6 +73,6 @@ export const useFavorites = () => {
     addFavorite,
     removeFavorite,
     toggleFavorite,
-    loading,
+    loadingFavourites: loading,
   };
 };

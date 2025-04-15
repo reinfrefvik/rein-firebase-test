@@ -12,7 +12,6 @@ const MagicItemGrid = ({ children }) => {
   let columns = [];
 
   children = children.flat();
-  console.log("WHAT", children);
 
   if (width < 1000) {
     columnCount = 1;
@@ -21,7 +20,6 @@ const MagicItemGrid = ({ children }) => {
   }
 
   for (let i = 0; i < columnCount; i++) {
-    console.log("Column: ", i);
     let tempChildren = [];
     for (let j = i; j < children.length; j += columnCount) {
       tempChildren.push(children[j]);

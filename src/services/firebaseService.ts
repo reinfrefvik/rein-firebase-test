@@ -36,7 +36,11 @@ export const deleteItem = async (
 ): Promise<boolean> => {
   try {
     const docRef = await deleteDoc(doc(db, table, id));
-    console.log(`Deleted item with ID: ${id} from collection: ${table}`);
+    console.log(
+      `Deleted item with ID: ${id} from collection: ${table}`,
+      " dockref: ",
+      docRef
+    );
     return true;
   } catch (e) {
     console.log("Error Deleting: ", e);
@@ -69,7 +73,7 @@ export const updateItem = async (
     const docRef = await updateDoc(doc(db, table, id), {
       ...item,
     });
-    console.log("Document updated with ID: ", id);
+    console.log("Document updated with ID: ", id, " docref: ", docRef);
     return true;
   } catch (e) {
     console.error("Error updating document: ", e);
@@ -80,13 +84,22 @@ export const updateItem = async (
 export const addToRelationTable = async (
   table: CollectionRelationName,
   value1: string,
-  value2: string
+  value2: string,
+  semantic1?: string,
+  semantic2?: string
 ): Promise<string | false> => {
+  const existingRelation = await isInRelationTable(table, value1, value2);
+  if (existingRelation) {
+    console.log("Relation already exists");
+    return false;
+  }
   const relationId = `${value1}-${value2}`;
 
   const item = {
     value1,
     value2,
+    semantic1,
+    semantic2,
     createdAt: new Date(),
   };
 
@@ -118,6 +131,17 @@ export const deleteFromRelationTable = async (
   value2: string
 ): Promise<boolean> => {
   const relationId = `${value1}-${value2}`;
+
+  try {
+    const existingRelation = await isInRelationTable(table, value1, value2);
+    if (!existingRelation) {
+      console.log("Relation does not exist");
+      return true;
+    }
+  } catch (e) {
+    console.error("Error checking relation: ", e);
+    return false;
+  }
 
   try {
     await deleteDoc(doc(db, table, relationId));

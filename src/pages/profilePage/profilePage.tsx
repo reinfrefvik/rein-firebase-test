@@ -7,7 +7,6 @@ const ProfilePage = () => {
     useContext(AuthContext);
   const [editDisplayName, setEditDisplayName] = useState("");
   const [editEmail, setEditEmail] = useState("");
-  const [editPhotoURL, setEditPhotoURL] = useState("");
   const [editPassword, setEditPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);

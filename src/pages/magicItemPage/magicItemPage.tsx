@@ -71,7 +71,9 @@ const MagicItemPage = () => {
               getModalItem={setModalItem}
             />
           ))}
-          {filteredItems.length === 0 && <p>No magic items found.</p>}
+          {filteredItems.length === 0 && (
+            <p key="no_magic_items_found">No magic items found.</p>
+          )}
         </MagicItemGrid>
       </div>
     </>
