@@ -3,8 +3,8 @@ import {
   addToRelationTable,
   deleteFromRelationTable,
   fetchRelationItems,
-} from "services/firebaseService";
-import { useAuth } from "contexts/useAuth";
+} from "@/services/firebaseService";
+import { useAuth } from "@/contexts/useAuth";
 
 const FAVORITES_TABLE = "magic_item_favorites" as const;
 

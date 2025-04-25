@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./MagicItemModal.css";
 import { createPortal } from "react-dom";
 import { EditFormHandle, ItemModalEditing } from "./magicItemModalEdit";
-import { useFavorites } from "hooks/useMagicItemFavourites";
+import { useFavorites } from "@/hooks/useMagicItemFavourites";
 
 interface itemModalProps {
   modalItem: MagicItemType;

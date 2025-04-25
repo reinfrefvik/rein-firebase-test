@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './loginPage.css'; // Import your CSS file for styling
-import { AuthContext } from '../../contexts/authContexts';
+import { AuthContext } from '@/contexts/authContexts';
 import { Link } from 'react-router-dom';
 
 

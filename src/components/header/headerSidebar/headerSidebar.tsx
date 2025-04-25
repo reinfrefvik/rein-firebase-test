@@ -1,8 +1,8 @@
 import "../Header.css"; // Import your CSS file
 import burger_close from "../../../assets/burger_close.png";
-import { routes } from "Routers";
+import { routes } from "../../../Routers";
 import { Link } from "react-router-dom";
-import { Login } from "components/login";
+import { Login } from "../../login";
 
 interface HeaderSidebarProps {
   user: any;

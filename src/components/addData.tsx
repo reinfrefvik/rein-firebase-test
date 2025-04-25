@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs } from "firebase/firestore";
-import { db } from "../Firebase.js";
+import { db } from "@/Firebase.js";
 import { useEffect, useState } from "react";
 
 const AddData = () => {

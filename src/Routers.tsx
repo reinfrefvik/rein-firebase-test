@@ -6,7 +6,7 @@ import LoginPage from "./pages/loginPage/loginPage";
 import { UserRegistrationForm } from "./pages/userRegistrationForm/userRegistrationForm";
 import ProfilePage from "./pages/profilePage/profilePage";
 import { MagicItemPage } from "./pages/magicItemPage/magicItemPage";
-import { PlayerPage } from "pages/playerPage/playerPage";
+import { PlayerPage } from "./pages/playerPage/playerPage";
 
 interface RouteType {
   name: string;

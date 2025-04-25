@@ -1,12 +1,12 @@
 import { useContext, useMemo, useState } from "react";
 import "./MagicItemPage.css"; // Import your CSS file for styling
-import { AuthContext } from "contexts/authContexts";
-import { MagicItem } from "components/magicItem/magicItem";
-import { ItemModal } from "components/magicItemModal/magicItemModal";
-import { AddMagicItem } from "components/magicItem/addMagicItemForm";
+import { AuthContext } from "@/contexts/authContexts";
+import { MagicItem } from "@/components/magicItem/magicItem";
+import { ItemModal } from "@/components/magicItemModal/magicItemModal";
+import { AddMagicItem } from "@/components/magicItem/addMagicItemForm";
 import { MagicItemGrid } from "./magicItemPageGrid/magicItemPageGrid";
 import { MagicItemSearch } from "./magicItemPageSearch/magicItemPageSearch";
-import { useMagicItems } from "hooks/useMagicItems";
+import { useMagicItems } from "@/hooks/useMagicItems";
 
 const MagicItemPage = () => {
   const { user } = useContext(AuthContext);

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MagicItem } from '../magicItem';
-import { getMockMagicItem } from 'helpers/mocks';
+import { getMockMagicItem } from '../../helpers/mocks';
 
 const props = {
     item: getMockMagicItem(),

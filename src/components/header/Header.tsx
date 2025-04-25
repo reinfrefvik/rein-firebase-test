@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import "./Header.css"; // Import your CSS file
-import { useAuthUser } from "contexts/useAuth";
+import { useAuthUser } from "../../contexts/useAuth";
 import { Link } from "react-router-dom";
 import logo from "../../assets/fatrat_logo.png";
 import burger_open from "../../assets/burger_open.png";

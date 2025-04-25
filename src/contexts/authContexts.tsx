@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useMemo,
 } from "react";
-import { auth } from "../Firebase.js";
+import { auth } from "@/Firebase.js";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,

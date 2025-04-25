@@ -1,6 +1,6 @@
 import "./MagicItemPageGrid.css";
 
-import useWindowDimensions from "hooks/getScreenDimensions";
+import useWindowDimensions from "@/hooks/getScreenDimensions";
 
 const Columns = ({ children }) => {
   return <div className="mip-grid-column">{children}</div>;

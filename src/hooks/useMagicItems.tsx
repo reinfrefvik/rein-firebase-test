@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useAuthUser } from "contexts/useAuth";
+import { useAuthUser } from "@/contexts/useAuth";
 import {
   addItem,
   deleteItem,
   fetchItems,
   updateItem,
-} from "services/firebaseService";
-import { useFavorites } from "./useMagicItemFavourites";
+} from "@/services/firebaseService";
+import { useFavorites } from "@/hooks/useMagicItemFavourites";
 
 const MAGIC_ITEM_TABLE = "magic_items" as const;
 

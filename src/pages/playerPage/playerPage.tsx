@@ -1,8 +1,8 @@
 import "./PlayerPage.css";
-import { MagicItem } from "components/magicItem/magicItem";
-import { useAuthUser } from "contexts/useAuth";
-import { useFavorites } from "hooks/useMagicItemFavourites";
-import { useMagicItems } from "hooks/useMagicItems";
+import { MagicItem } from "../../components/magicItem/magicItem";
+import { useAuthUser } from "../../contexts/useAuth";
+import { useFavorites } from "../../hooks/useMagicItemFavourites";
+import { useMagicItems } from "../../hooks/useMagicItems";
 import { useMemo } from "react";
 
 const PlayerPage = () => {

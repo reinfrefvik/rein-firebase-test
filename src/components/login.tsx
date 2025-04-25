@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../contexts/authContexts";
+import { AuthContext } from "@/contexts/authContexts";
 
 interface LoginProps {
   onClickAction?: () => void;

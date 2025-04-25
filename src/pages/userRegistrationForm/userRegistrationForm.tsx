@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import "./UserRegistrationForm.css"; // Import your CSS file for styling
-import { AuthContext } from "contexts/authContexts";
+import { AuthContext } from "../../contexts/authContexts";
 
 const UserRegistrationForm = () => {
   const { createUser } = useContext(AuthContext);
