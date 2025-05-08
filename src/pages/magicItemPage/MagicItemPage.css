@@ -1,6 +1,6 @@
 .mil-body {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     width: 100%;
     margin: 0;

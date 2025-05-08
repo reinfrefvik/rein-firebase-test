@@ -1,44 +1,10 @@
 /* Header.css */
-.header {
-  display: flex;
-  position: relative;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 10px;
-  background-color: white;
-  color: black;
-  box-shadow: 0 0 5px 1px #00000050;
-}
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
 .logo-img {
   width: 60px;
   height: 60px;
   border-radius: 5px;
 }
 
-.user-settings {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 10px;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.user-settings:hover {
-  text-shadow: 0 0 0.1em #00000030;
-}
-
-.burger_menu_container {
-  margin-left: 8px;
-  display: flex;
-  align-items: center;
-}
 .user-menu {
   z-index: 1000;
   position: absolute;
@@ -47,7 +13,6 @@
   height: 100vh;
   width: 40vw;
   background-color: #fff;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -65,7 +30,6 @@
   flex-direction: row;
   text-decoration: none;
   color: black;
-  margin: 10px;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -80,7 +44,6 @@
   background-color: #e74c3c;
   color: #ffffff;
   border: none;
-  padding: 5px 10px;
   cursor: pointer;
 }
 
@@ -92,5 +55,4 @@
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  margin-left: 10px;
 }

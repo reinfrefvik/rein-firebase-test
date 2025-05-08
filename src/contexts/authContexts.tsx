@@ -26,7 +26,7 @@ interface UpdateUserProps {
 }
 interface AuthContextProps {
   isLoading: boolean;
-  user: User | TestUser | null;
+  user: User | null;
   signOut: () => void;
   signIn: (email: string, password: string) => Promise<boolean>;
   createUser: (
@@ -37,15 +37,12 @@ interface AuthContextProps {
   updateUser: (params: UpdateUserProps) => Promise<boolean>;
 }
 
-type TestUser = {
-  displayName: string;
-}
-
 const AuthContext = createContext<AuthContextProps | null>(null);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | TestUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setLoading] = useState(true);
+  console.log("user", user);
 
   //SIGN IN
   const signIn = async (email: string, password: string): Promise<boolean> => {

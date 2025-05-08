@@ -16,22 +16,21 @@ const Header: React.FC<HeaderProps> = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   return (
-    <header className="header">
-      <Link className="logo-container" to="/home">
+    <header className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-md">
+      <Link to="/home">
         <img src={logo} alt="Fat Rat Logo" className="logo-img" />
       </Link>
-      <div className="user-settings" onClick={() => setShowUserMenu(true)}>
-        <div> {!!user ? user.displayName ?? "UserName" : "No User"} </div>
+      <div className="flex items-center gap-4" onClick={() => setShowUserMenu(true)}>
+        <div className="text-gray-700"> {!!user ? user.displayName ?? "UserName" : "No User"} </div>
         {!!user
           ? user.photoURL && (
-              <img src={user.photoURL} alt="user" width={25} height={25} />
+              <img src={user.photoURL} alt="user" className="user-img"/>
             )
           : null}
-        <div className="burger_menu_container">
+        <div className="flex items-center cursor-pointer">
           <img
             src={!showUserMenu ? burger_open : burger_close}
             alt="burger_menu"
-            className="burger_menu_icon"
           />
         </div>
       </div>

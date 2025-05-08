@@ -3,7 +3,7 @@ import "./MagicItemPageGrid.css";
 import useWindowDimensions from "@/hooks/getScreenDimensions";
 
 const Columns = ({ children }) => {
-  return <div className="mip-grid-column">{children}</div>;
+  return <div className="mip-grid-column justify-top">{children}</div>;
 };
 
 const MagicItemGrid = ({ children }) => {
