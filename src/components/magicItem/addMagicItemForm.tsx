@@ -1,6 +1,4 @@
 import { useState } from "react";
-import "./MagicItem.css";
-import "./AddMagicItemForm.css";
 
 interface addMagicItemInterface {
   addMagicItem: (newItem: MagicItemType) => Promise<boolean | MagicItemType>;
@@ -18,6 +16,7 @@ const AddMagicItem = (props: addMagicItemInterface) => {
     e.preventDefault();
 
     if (itemTitle === "" || itemType === "" || itemDescription === "") {
+      setError("Please fill in all fields");
       return;
     }
 
@@ -46,17 +45,16 @@ const AddMagicItem = (props: addMagicItemInterface) => {
   };
 
   return (
-    <div className="mi-card-container">
-      <div className="mi-card">
-        <div className="ami_header">
+      <div className="flex flex-col justify-start p-4 bg-white drop-shadow-md rounded-md my-2">
+        <div className="flex flex-row justify-between items-center">
           <div>Add New Item</div>
-          <button type="button" onClick={toggleCollapse}>
+          <button className="p-1 bg-gray-200 cursor-pointer" type="button" onClick={toggleCollapse}>
             {collapse ? "show" : "hide"}
           </button>
         </div>
-        <div className={collapse ? "ami_hide" : "ami_show"}>
-          <div className="ami_form">
-            <form onSubmit={addItem}>
+        <div className={collapse ? "hidden" : "block"}>
+          <div className="flex flex-col justify-between items-center w-full min-w-[200px]">
+            <form className="w-full" onSubmit={addItem}>
               <input
                 name="title"
                 placeholder="Title"
@@ -71,35 +69,34 @@ const AddMagicItem = (props: addMagicItemInterface) => {
                 type="text"
                 onChange={(e) => setItemType(e.target.value)}
               />
-              <div className="ami_attunement">
-                <div className="ami_attunement_text">Requires Attunement?</div>
+              <div className="flex flex-row w-full justify-between">
+                <div className="">Requires Attunement?</div>
                 <input
-                  className="ami_attunement_input"
+                  className=""
                   type="checkbox"
                   checked={attunement}
                   onChange={(e) => setAttunement(e.target.checked)}
                 />
               </div>
-              <div className="ami_description">
+              <div className="mt-1 w-full">
                 <textarea
-                  className="ami_description_input"
+                  className="w-full h-[100px] overflow-scroll"
                   name="description"
                   placeholder="Description"
                   value={itemDescription}
                   onChange={(e) => setItemDescription(e.target.value)}
                 />
               </div>
-              <div className="ami_submit">
-                <button type="submit" className="ami_submit_button">
+              <div className="w-full mt-1">
+                <button type="submit" className="w-full bg-green-600 text-white cursor-pointer">
                   Add Item
                 </button>
               </div>
             </form>
-            {error && <div className="ami_error">{error}</div>}
+            {error && <div className="w-full bg-red-100 mt-1 text-center">{error}</div>}
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

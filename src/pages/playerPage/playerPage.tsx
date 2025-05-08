@@ -1,4 +1,3 @@
-import "./PlayerPage.css";
 import { MagicItem } from "../../components/magicItem/magicItem";
 import { useAuthUser } from "../../contexts/useAuth";
 import { useFavorites } from "../../hooks/useMagicItemFavourites";

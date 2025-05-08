@@ -1,5 +1,4 @@
 import { useContext, useMemo, useState } from "react";
-import "./MagicItemPage.css"; // Import your CSS file for styling
 import { AuthContext } from "@/contexts/authContexts";
 import { MagicItem } from "@/components/magicItem/magicItem";
 import { ItemModal } from "@/components/magicItemModal/magicItemModal";
@@ -56,7 +55,7 @@ const MagicItemPage = () => {
         onDelete={handleDeleteMagicItem}
         onEditSaved={updateMagicItem}
       />
-      <div className="mil-body">
+      <div className="flex items-start justify-center">
         <MagicItemGrid>
           <MagicItemSearch
             key="magic_item_search"

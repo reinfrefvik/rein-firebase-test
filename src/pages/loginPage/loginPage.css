@@ -28,11 +28,11 @@
     display: none;
   }
 
-  label {
+  .login-form label {
     display: block;
   }
   
-  input {
+  .login-form input {
     width: 100%;
     padding: 12px 20px;
     margin-top: 8px;
@@ -42,7 +42,7 @@
     box-sizing: border-box;
   }
   
-  button {
+  .login-form button {
     background-color: #007bff;
     color: white;
     padding: 10px;
@@ -50,7 +50,7 @@
     cursor: pointer;
   }
   
-  button:hover {
+  .login-form button:hover {
     background-color: #0056b3;
   }
   

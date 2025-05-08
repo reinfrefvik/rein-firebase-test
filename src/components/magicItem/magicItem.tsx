@@ -1,5 +1,3 @@
-import "./MagicItem.css"; // Import your CSS file
-
 interface magicItemProps {
   item: MagicItemType;
   getModalItem?: (item: MagicItemType) => any;
@@ -16,18 +14,14 @@ const MagicItem = (props: magicItemProps) => {
   };
 
   return (
-    <div className="mi-card-container">
-      <div className="mi-card-cursor">
-        <div className="mi-card" onClick={getItem}>
-          <div className="mi-title">{title}</div>
-          <div className="mi-type">
+        <div className="flex flex-col justify-start p-4 bg-white hover:bg-green-50 rounded-md drop-shadow-md cursor-pointer mt-2" onClick={getItem}>
+          <div className="font-semibold">{title}</div>
+          <div className="text-gray-500 text-sm">
             {type}
             {attunement ? " Requires Attunement" : ""}
           </div>
-          <div className="mi-body">{description}</div>
+          <div className="text-sm mt-3 max-h-[200px] overflow-y-hidden">{description}</div>
         </div>
-      </div>
-    </div>
   );
 };
 
