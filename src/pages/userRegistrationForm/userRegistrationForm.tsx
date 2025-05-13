@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import "./UserRegistrationForm.css"; // Import your CSS file for styling
 import { AuthContext } from "../../contexts/authContexts";
 
 const UserRegistrationForm = () => {
@@ -31,10 +30,11 @@ const UserRegistrationForm = () => {
   };
 
   return (
-    <div className="registration-container">
-      <form className="registration-form" onSubmit={handleRegister}>
+    <div className="flex justify-center align-center mt-[10vh]">
+      <form className="flex flex-col justify-center align-center p-4 bg-white rounded-sm shadow-md" onSubmit={handleRegister}>
         <label htmlFor="email">Email:</label>
         <input
+          className="w-full p-4 mb-4 bg-gray-200 rounded-md"
           type="email"
           id="email"
           value={email}
@@ -44,6 +44,7 @@ const UserRegistrationForm = () => {
 
         <label htmlFor="password">Password:</label>
         <input
+          className="w-full p-4 mb-4 bg-gray-200 rounded-md"
           type="password"
           id="password"
           value={password}
@@ -53,6 +54,7 @@ const UserRegistrationForm = () => {
 
         <label htmlFor="confirmPassword">Confirm Password:</label>
         <input
+          className="w-full p-4 mb-4 bg-gray-200 rounded-md"
           type="password"
           id="confirmPassword"
           value={confirmPassword}
@@ -60,7 +62,7 @@ const UserRegistrationForm = () => {
           required
         />
 
-        <button type="submit">Register</button>
+        <button className="bg-green-600 p-2 rounded-sm text-white self-end" type="submit">Register</button>
       </form>
     </div>
   );

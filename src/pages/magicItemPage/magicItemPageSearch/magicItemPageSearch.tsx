@@ -1,3 +1,5 @@
+import { FaSearch } from "react-icons/fa";
+import { FaRedo } from "react-icons/fa";
 
 interface MagicItemSearchProps {
   searchText: string;
@@ -8,7 +10,7 @@ const MagicItemSearch = (props: MagicItemSearchProps) => {
   const searchItems = (e) => {
     e.preventDefault();
     if (!props.searchText.trim()) return;
-  }
+  };
 
   const resetSearch = (e) => {
     e.preventDefault();
@@ -26,12 +28,22 @@ const MagicItemSearch = (props: MagicItemSearchProps) => {
           value={props.searchText}
           onChange={(e) => props.setSearchText(e.target.value)}
         />
-        <button className="p-2 bg-green-600 text-white rounded-sm" onClick={searchItems}>Search</button>
+        <button
+          className="p-2 bg-green-600 text-white rounded-sm"
+          onClick={searchItems}
+        >
+          <FaSearch />
+        </button>
       </div>
-      {props.searchText !== '' && (
+      {props.searchText !== "" && (
         <div className="flex flex-row items-center z-1 bg-amber-50 p-4 rounded-b-md drop-shadow-md mt-[-4px]">
           <span className="w-full">Filtering for: "{props.searchText}"</span>
-          <button className="p-2 bg-blue-600 text-white rounded-sm" onClick={resetSearch}>Reset</button>
+          <button
+            className="p-2 bg-blue-600 text-white rounded-sm"
+            onClick={resetSearch}
+          >
+            <FaRedo />
+          </button>
         </div>
       )}
     </div>

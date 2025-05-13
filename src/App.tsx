@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./contexts/authContexts";
 import Routers from "./Routers";
@@ -8,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <div id="modal" />
-      <div className="App">
+      <div className="w-full h-screen">
         <AuthProvider>
           <Header />
           <Routers />

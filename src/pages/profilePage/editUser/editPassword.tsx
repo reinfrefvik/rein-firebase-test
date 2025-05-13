@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../ProfilePage.css"; // Import your CSS file for styling
 
 interface editPasswordProps {}
 
@@ -16,13 +15,13 @@ const EditPassword = (props: editPasswordProps) => {
   };
 
   return (
-    <div className="form-container">
-      <div className="profile-dividers">Password:</div>
-      <form className="profile-form" onSubmit={submitPassword}>
-        <table>
+    <div className="pt-4 ">
+      <div className="text-start border-b-2 border-gray-200 mb-3">Password:</div>
+      <form className="w-full" onSubmit={submitPassword}>
+        <table className="w-full">
           <tbody>
             <tr>
-              <th className="form-label">
+              <th className="text-start">
                 <label htmlFor="password">Password:</label>
               </th>
               <th>
@@ -38,7 +37,7 @@ const EditPassword = (props: editPasswordProps) => {
               </th>
             </tr>
             <tr>
-              <th className="form-label">
+              <th className="text-start">
                 <label htmlFor="confirmPassword">Confirm Password:</label>
               </th>
               <th>
@@ -56,8 +55,8 @@ const EditPassword = (props: editPasswordProps) => {
 
             <tr>
               <th colSpan={2}>
-                <div className="form-submit">
-                  <button className="submit-btn" type="submit" disabled>
+                <div className="w-full flex justify-end">
+                  <button className="bg-green-500 disabled:bg-gray-300 rounded-sm p-1" type="submit" disabled>
                     Disabled
                   </button>
                 </div>

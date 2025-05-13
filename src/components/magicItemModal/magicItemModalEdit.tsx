@@ -1,6 +1,4 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
-import "./MagicItemModal.css";
-import "./MagicItemModalEdit.css";
 
 export type EditFormHandle = {
   submit: (e: React.FormEvent) => void;
@@ -37,19 +35,21 @@ export const ItemModalEditing = forwardRef<EditFormHandle, EditFormTypes>(
       <>
         <form onSubmit={handleSubmit}>
           <input
+            className="w-full p-2 bg-gray-200 rounded-md"
             name="title"
             value={titleE}
             type="text"
             onChange={(e) => setTitleE(e.target.value)}
           />
           <input
+            className="w-full p-2 bg-gray-200 rounded-md mt-1"
             name="type"
             value={typeE}
             type="text"
             onChange={(e) => setTypeE(e.target.value)}
           />
-          <div className="mim-edit-attunement">
-            <div>requires attunement? </div>
+          <div className="flex flex-row items-center justify-start gap-2">
+            <div className="text-sm text-gray-500">requires attunement? </div>
             <input
               name="attunement"
               type="checkbox"
@@ -58,7 +58,8 @@ export const ItemModalEditing = forwardRef<EditFormHandle, EditFormTypes>(
             />
           </div>
           <textarea
-            className="mim-edit-description"
+            className="w-full p-2 bg-gray-200 rounded-md mt-1"
+            rows={5}
             name="description"
             value={descriptionE}
             onChange={(e) => setDescriptionE(e.target.value)}

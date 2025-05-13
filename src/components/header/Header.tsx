@@ -1,7 +1,4 @@
-// Header.tsx
-
 import React, { useState } from "react";
-import "./Header.css"; // Import your CSS file
 import { useAuthUser } from "../../contexts/useAuth";
 import { Link } from "react-router-dom";
 import logo from "../../assets/fatrat_logo.png";
@@ -16,18 +13,15 @@ const Header: React.FC<HeaderProps> = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   return (
-    <header className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-md">
+    <header className="w-full flex items-center justify-between px-5 py-1 bg-white shadow-md">
       <Link to="/home">
-        <img src={logo} alt="Fat Rat Logo" className="logo-img" />
+        <img src={logo} alt="Fat Rat Logo" className="w-[60px] h-[60px]" />
       </Link>
-      <div className="flex items-center gap-4" onClick={() => setShowUserMenu(true)}>
-        <div className="text-gray-700"> {!!user ? user.displayName ?? "UserName" : "No User"} </div>
-        {!!user
-          ? user.photoURL && (
-              <img src={user.photoURL} alt="user" className="user-img"/>
-            )
-          : null}
-        <div className="flex items-center cursor-pointer">
+      <div
+        className="flex items-center gap-1"
+        onClick={() => setShowUserMenu(true)}
+      >
+        <div className="flex items-center cursor-pointer ml-3">
           <img
             src={!showUserMenu ? burger_open : burger_close}
             alt="burger_menu"

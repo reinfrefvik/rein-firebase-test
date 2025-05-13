@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import "./MagicItemModal.css";
 import { createPortal } from "react-dom";
 import { EditFormHandle, ItemModalEditing } from "./magicItemModalEdit";
 import { useFavorites } from "@/hooks/useMagicItemFavourites";
+import {
+  FaHeartCirclePlus,
+  FaHeartCircleXmark,
+  FaTrashCan,
+  FaPenToSquare,
+} from "react-icons/fa6";
+import { FaTimesCircle, FaSave } from "react-icons/fa";
 
 interface itemModalProps {
   modalItem: MagicItemType;
@@ -14,8 +20,8 @@ interface itemModalProps {
 const ItemModalRead = ({ modalItem }) => {
   return (
     <>
-      <div className="mim-title">{modalItem.mi_title}</div>
-      <div className="mim-type">
+      <div className="text-lg font-semibold">{modalItem.mi_title}</div>
+      <div className="text-sm text-gray-500 mb-2">
         {modalItem.mi_type}{" "}
         {modalItem.mi_attunement ? "requires attunement" : ""}
       </div>
@@ -75,9 +81,8 @@ const ItemModal = (props: itemModalProps) => {
   if (props.modalItem == null) return null;
   if (!domReady) return null;
   return createPortal(
-    <div className="mim-modal" onClick={closeModal}>
-      <div className="mim-container">
-        <div className="mim-card" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center z-1000 bg-[#00000080]" onClick={closeModal}>
+        <div className="bg-white rounded-md p-4 m-4 w-full max-w-[800px]" onClick={(e) => e.stopPropagation()}>
           {!editing ? (
             <ItemModalRead modalItem={props.modalItem} />
           ) : (
@@ -87,33 +92,47 @@ const ItemModal = (props: itemModalProps) => {
               onEditSaved={onEditSaved}
             />
           )}
-          <div className="mim-footer">
+          <div className="flex flex-row justify-end items-center mt-2">
             {editing && (
-              <button className="mim-footer-edit" onClick={handleSave}>
-                Save
+              <button
+                className="p-2 bg-green-400 hover:bg-green-800 text-white ml-1 rounded-sm"
+                onClick={handleSave}
+              >
+                <FaSave />
               </button>
             )}
             <button
-              className={editing ? "mim-footer-delete" : "mim-footer-edit"}
+              className={`p-2 bg-${
+                editing ? "red" : "blue"
+              }-400 text-white ml-1 rounded-sm 
+              hover:bg-${editing ? "red" : "blue"}-800 `}
               onClick={onEdit}
             >
-              {editing ? "cancel" : "edit"}
+              {editing ? <FaTimesCircle /> : <FaPenToSquare />}
             </button>
             {isFavorited(props.modalItem.id) ? (
-              <button className="mim-footer-delete" onClick={handleUnfavorite}>
-                Unfavorite
+              <button
+                className="p-2 bg-blue-400 hover:bg-blue-800 text-white ml-1 rounded-sm"
+                onClick={handleUnfavorite}
+              >
+                <FaHeartCircleXmark />
               </button>
             ) : (
-              <button className="mim-footer-favourite" onClick={handleFavorite}>
-                Favorite
+              <button
+                className="p-2 bg-blue-400 hover:bg-blue-800 text-white ml-1 rounded-sm"
+                onClick={handleFavorite}
+              >
+                <FaHeartCirclePlus />
               </button>
             )}
-            <button className="mim-footer-delete" onClick={onDelete}>
-              Delete
+            <button
+              className="p-2 bg-red-400 hover:bg-red-800 text-white ml-1 rounded-sm"
+              onClick={onDelete}
+            >
+              <FaTrashCan />
             </button>
           </div>
         </div>
-      </div>
     </div>,
     document.getElementById("modal")
   );

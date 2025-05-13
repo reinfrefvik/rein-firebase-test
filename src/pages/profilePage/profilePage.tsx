@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import "./ProfilePage.css"; // Import your CSS file for styling
 import { AuthContext } from "../../contexts/authContexts";
 import { EditUser } from "./editUser/editUser";
 
@@ -22,15 +21,15 @@ const ProfilePage = () => {
 
   if (isUpdating) {
     return (
-      <div className="profile-body">
-        <div className="profile-card">
+      <div className="flex flex-col justify-center items-center w-full">
+        <div className="justify-center p-4 bg-white rounded-md shadow-md m-4 text-center">
           <span>Updating User</span>
         </div>
       </div>
     );
   } else {
     return (
-      <div className="profile-body">
+      <div className="flex flex-col justify-center items-center w-full">
         <EditUser
           user={user}
           setIsUpdating={setIsUpdating}

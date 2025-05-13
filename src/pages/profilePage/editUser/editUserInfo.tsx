@@ -36,19 +36,20 @@ const EditUserInfo = (props: editUserInfoProps) => {
   };
 
   return (
-    <div className="form-container">
-      <div className="profile-dividers">User Info:</div>
-      <form className="profile-form" onSubmit={submitUserData}>
-        <table className="profile-form">
+    <div className="pt-4">
+      <div className="text-start border-b-2 border-gray-200 mb-3">User Info:</div>
+      <form className="w-full" onSubmit={submitUserData}>
+        <table className="w-full">
           <tbody>
             <tr>
-              <th className="form-label">
+              <th className="text-start">
                 <label htmlFor="name">Name:</label>
               </th>
-              <th>
+              <th className="w-[50%]">
                 <input
                   type="text"
                   id="name"
+                  className="w-full"
                   defaultValue={displayName}
                   ref={displayNameRef}
                   onChange={(e) => setEditDisplayName(e.target.value)}
@@ -57,7 +58,7 @@ const EditUserInfo = (props: editUserInfoProps) => {
               </th>
             </tr>
             <tr>
-              <th className="form-label">
+              <th className="text-start">
                 <label htmlFor="email">Email:</label>
               </th>
               <th>
@@ -66,11 +67,11 @@ const EditUserInfo = (props: editUserInfoProps) => {
             </tr>
             <tr>
               <th colSpan={2}>
-                <div className="form-submit">
+                <div className="w-full flex justify-end">
                   {editDisplayName !== "" &&
                     editDisplayName !== displayName && (
                       <button
-                        className="submit-btn"
+                        className="bg-blue-500 disabled:bg-gray-300 rounded-sm p-1"
                         type="reset"
                         onClick={resetForm}
                       >
@@ -78,7 +79,7 @@ const EditUserInfo = (props: editUserInfoProps) => {
                       </button>
                     )}
                   <button
-                    className="submit-btn"
+                    className="bg-green-500 disabled:bg-gray-300 rounded-sm p-1 ml-2"
                     type="submit"
                     disabled={
                       editDisplayName === "" || editDisplayName === displayName

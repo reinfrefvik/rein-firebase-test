@@ -1,7 +1,4 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 body {
   margin: 0;
@@ -18,5 +15,5 @@ html {
 
 #root {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
 }

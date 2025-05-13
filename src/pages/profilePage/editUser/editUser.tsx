@@ -10,12 +10,10 @@ interface editUserProps {
 
 const EditUser = (props: editUserProps) => {
   return (
-    <div className="profile-card">
-      <div className="card-title">Edit User</div>
-      <div className="card-body">
+    <div className="justify-center p-4 bg-white rounded-md shadow-md m-4 text-center">
+      <div className="semi-bold">Edit User</div>
         <EditUserInfo {...props} />
         <EditPassword />
-      </div>
     </div>
   );
 };
