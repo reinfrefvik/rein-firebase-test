@@ -81,7 +81,7 @@ const ItemModal = (props: itemModalProps) => {
   if (props.modalItem == null) return null;
   if (!domReady) return null;
   return createPortal(
-    <div className="fixed top-0 left-0 w-full h-full flex justify-center z-1000 bg-[#00000080]" onClick={closeModal}>
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-start z-1000 bg-[#00000080]" onClick={closeModal}>
         <div className="bg-white rounded-md p-4 m-4 w-full max-w-[800px]" onClick={(e) => e.stopPropagation()}>
           {!editing ? (
             <ItemModalRead modalItem={props.modalItem} />

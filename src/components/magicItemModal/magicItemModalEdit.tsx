@@ -34,22 +34,28 @@ export const ItemModalEditing = forwardRef<EditFormHandle, EditFormTypes>(
     return (
       <>
         <form onSubmit={handleSubmit}>
+          <label className="text-sm">
+            Title:
+          </label>
           <input
-            className="w-full p-2 bg-gray-200 rounded-md"
+            className="w-full p-2 bg-gray-200 rounded-md mb-4"
             name="title"
             value={titleE}
             type="text"
             onChange={(e) => setTitleE(e.target.value)}
           />
+          <label className="text-sm">
+            Type:
+          </label>
           <input
-            className="w-full p-2 bg-gray-200 rounded-md mt-1"
+            className="w-full p-2 bg-gray-200 rounded-md mt-1 mb-4"
             name="type"
             value={typeE}
             type="text"
             onChange={(e) => setTypeE(e.target.value)}
           />
-          <div className="flex flex-row items-center justify-start gap-2">
-            <div className="text-sm text-gray-500">requires attunement? </div>
+          <div className="flex flex-row items-center justify-start gap-2 mb-4">
+            <div className="text-sm">requires attunement? </div>
             <input
               name="attunement"
               type="checkbox"
