@@ -27,10 +27,11 @@ export const useGames = () => {
     // Simulate fetching games from a database
     const games = (await fetchItems<GameType>(GAMES_TABLE)) as GameType[];
     for (const game of games) {
-      const members = await fetchGameMembers(game.id);
+      const members = (await fetchGameMembers(game.id)) as GameMemberType[];
       game.members = members.map((member) => ({
-        id: member.value2,
+        uid: member.value2,
         name: member.semantic2,
+        gameId: game.id,
       }));
     }
 

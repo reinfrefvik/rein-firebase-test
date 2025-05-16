@@ -13,7 +13,9 @@ export const useGameMembers = () => {
 
   const userId = user?.uid;
 
-  const fetchGameMembers = async (gameId: string) => {
+  const fetchGameMembers = async (
+    gameId: string
+  ): Promise<GameMemberType[]> => {
     if (!userId) return;
 
     const items = await fetchRelationItems(GAME_MEMBERS_TABLE, gameId);

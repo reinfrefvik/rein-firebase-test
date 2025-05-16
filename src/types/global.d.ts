@@ -19,5 +19,15 @@ declare type GameType = {
   id?: string;
   name: string;
   description?: string;
-  members?: any[];
+  members?: GameMemberType[];
+};
+
+declare type GameMemberType = {
+  uid: string;
+  name?: string;
+  gameId: string;
+  value1?: string;
+  value2?: string;
+  semantic1?: string;
+  semantic2?: string;
 };
