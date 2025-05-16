@@ -7,6 +7,7 @@ import { UserRegistrationForm } from "./pages/userRegistrationForm/userRegistrat
 import ProfilePage from "./pages/profilePage/profilePage";
 import { MagicItemPage } from "./pages/magicItemPage/magicItemPage";
 import { PlayerPage } from "./pages/playerPage/playerPage";
+import { GamesPage } from "./pages/gamesPage/gamesPage";
 
 interface RouteType {
   name: string;
@@ -19,6 +20,7 @@ export const routes: RouteType[] = [
   { name: "Profile", path: "/profile", element: <ProfilePage /> },
   { name: "Player", path: "/player", element: <PlayerPage /> },
   { name: "Magic items", path: "/magicitems", element: <MagicItemPage /> },
+  { name: "Games", path: "/games", element: <GamesPage /> },
 ];
 
 const Routers = () => {

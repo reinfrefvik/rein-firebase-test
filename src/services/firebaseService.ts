@@ -18,8 +18,8 @@ export interface Item {
   // add other fields here
 }
 
-export type CollectionName = "magic_items" | "users";
-export type CollectionRelationName = "magic_item_favorites";
+export type CollectionName = "magic_items" | "users" | "games";
+export type CollectionRelationName = "magic_item_favorites" | "games_users" | "game_members";
 
 // Fetch all items
 export const fetchItems = async <T>(table: CollectionName): Promise<[T]> => {
@@ -65,7 +65,7 @@ export const addItem = async <T>(
 };
 
 export const updateItem = async (
-  item: Item | MagicItemType,
+  item: Item | MagicItemType | GameType,
   id: string,
   table: CollectionName
 ): Promise<boolean> => {
@@ -94,12 +94,13 @@ export const addToRelationTable = async (
     return false;
   }
   const relationId = `${value1}-${value2}`;
+  console.log("Relation ID: ", relationId);
 
   const item = {
     value1,
     value2,
-    semantic1,
-    semantic2,
+    semantic1 : semantic1 || '',
+    semantic2 : semantic2 || '',
     createdAt: new Date(),
   };
 
