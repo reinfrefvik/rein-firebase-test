@@ -9,6 +9,7 @@ import {
   query,
   where,
   getDoc,
+  QuerySnapshot,
 } from "firebase/firestore";
 import { db } from "../Firebase.js";
 
@@ -19,7 +20,10 @@ export interface Item {
 }
 
 export type CollectionName = "magic_items" | "users" | "games";
-export type CollectionRelationName = "magic_item_favorites" | "games_users" | "game_members";
+export type CollectionRelationName =
+  | "magic_item_favorites"
+  | "games_users"
+  | "game_members";
 
 // Fetch all items
 export const fetchItems = async <T>(table: CollectionName): Promise<[T]> => {
@@ -81,12 +85,11 @@ export const updateItem = async (
   }
 };
 
-export const addToRelationTable = async (
+export const addToRelationTable = async <T>(
   table: CollectionRelationName,
+  item: T,
   value1: string,
   value2: string,
-  semantic1?: string,
-  semantic2?: string
 ): Promise<string | false> => {
   const existingRelation = await isInRelationTable(table, value1, value2);
   if (existingRelation) {
@@ -95,14 +98,6 @@ export const addToRelationTable = async (
   }
   const relationId = `${value1}-${value2}`;
   console.log("Relation ID: ", relationId);
-
-  const item = {
-    value1,
-    value2,
-    semantic1 : semantic1 || '',
-    semantic2 : semantic2 || '',
-    createdAt: new Date(),
-  };
 
   try {
     await setDoc(doc(db, table, relationId), item);
@@ -114,16 +109,22 @@ export const addToRelationTable = async (
   }
 };
 
-export const fetchRelationItems = async (
+export const fetchRelationItems = async <T>(
   table: CollectionRelationName,
-  value1: string
-): Promise<any[]> => {
-  const q = query(collection(db, table), where("value1", "==", value1));
-  const snapshot = await getDocs(q);
+  field?: string,
+  value?: string,
+): Promise<T[]> => {
+  let snapshot: QuerySnapshot;
+  if (!field || !value) {
+    snapshot = await getDocs(collection(db, table));
+  } else {
+    const q = query(collection(db, table), where(field, "==", value));
+    snapshot = await getDocs(q);
+  }
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
-  }));
+  } as T));
 };
 
 export const deleteFromRelationTable = async (

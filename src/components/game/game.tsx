@@ -22,8 +22,7 @@ const Game = (props: GameProps) => {
   const [gameNameInput, setGameNameInput] = useState(props.game.name);
   const [loading, setLoading] = useState(false);
   const [gameMembers, setGameMembers] = useState<any[]>(props.game.members);
-  const { fetchGameMembers, addGameMember, removeGameMember } =
-    useGameMembers();
+  const { addGameMember, removeGameMember } = useGameMembers();
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -57,14 +56,20 @@ const Game = (props: GameProps) => {
     }
     setGameMembers((prev) => [
       ...prev,
-      { uid: user.uid, name: user.displayName || "" },
+      {
+        uid: user.uid,
+        displayName: user.displayName || "",
+        id: user.uid + "-" + props.game.id,
+        gameId: props.game.id,
+        name: props.game.name,
+      },
     ]);
     return true;
   };
 
   const handleLeaveGame = async (e) => {
     e.preventDefault();
-    removeGameMember(props.game.id, user.uid);
+    removeGameMember(user.uid, props.game.id);
     setGameMembers((prev) => prev.filter((member) => member.uid !== user.uid));
     return true;
   };
@@ -80,6 +85,8 @@ const Game = (props: GameProps) => {
       </div>
     );
   }
+
+  console.log("Game Members", gameMembers);
 
   return (
     <IconContext.Provider value={{ size: "18px" }}>
@@ -113,7 +120,7 @@ const Game = (props: GameProps) => {
         ) : (
           <div className="text-lg mb-2">{props.game.name}</div>
         )}
-        {gameMembers.some((member) => member.uid === user.uid) && (
+        {gameMembers.length !== 0 && (
           <div className="text-sm text-gray-400">Members:</div>
         )}
         {gameMembers.map((member) => (
@@ -121,7 +128,7 @@ const Game = (props: GameProps) => {
             key={member.id}
             className="flex flex-row justify-between items-center w-full"
           >
-            <div className="text-sm text-gray-400 pl-2">{member.name}</div>
+            <div className="text-sm text-gray-400 pl-2">{member.displayName}</div>
             {editing && (
               <button
                 className="bg-red-400 text-white p-2 ml-2 rounded-sm cursor-pointer"

@@ -15,19 +15,45 @@ declare type MagicItemType = {
   is_favorite?: boolean;
 };
 
+declare type MagicItemFavouriteType = {
+  id?: string;
+  uid: string;
+  displayName: string;
+  itemId: string;
+  itemName: string;
+};
+
 declare type GameType = {
   id?: string;
   name: string;
   description?: string;
   members?: GameMemberType[];
+  self?: boolean;
 };
 
 declare type GameMemberType = {
   uid: string;
-  name?: string;
+  id?: string;
+  gameName?: string;
+  displayName?: string;
   gameId: string;
-  value1?: string;
-  value2?: string;
-  semantic1?: string;
-  semantic2?: string;
+};
+
+declare type GameNoteType = {
+  id?: string;
+  noteType: 'character'|'faction'|'lore'|'location'|'item'|'quest'|'other';
+  gameId: string;
+  title: string;
+  content: string;
+  createdBy: string;
+  createdAt?: Date;
+};
+
+declare type NoteType = {
+  id?: string;
+  content: string;
+  relationType: string;
+  relationId: string;
+  createdBy: string;
+  createdAt?: Date;
 };

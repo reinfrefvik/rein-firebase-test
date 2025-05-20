@@ -7,6 +7,10 @@ import { useAuth } from "@/contexts/useAuth";
 import { User } from "firebase/auth";
 
 const GAME_MEMBERS_TABLE = "game_members" as const;
+type GameMemberQuery = {
+  gameId?: string;
+  uid?: string;
+};
 
 export const useGameMembers = () => {
   const { user } = useAuth();
@@ -14,11 +18,26 @@ export const useGameMembers = () => {
   const userId = user?.uid;
 
   const fetchGameMembers = async (
-    gameId: string
+    query: GameMemberQuery
   ): Promise<GameMemberType[]> => {
     if (!userId) return;
 
-    const items = await fetchRelationItems(GAME_MEMBERS_TABLE, gameId);
+    let items;
+    if (!query.gameId && !query.uid) {
+      items = await fetchRelationItems<GameMemberType>(GAME_MEMBERS_TABLE);
+    } else if (query.gameId) {
+      items = await fetchRelationItems<GameMemberType>(
+        GAME_MEMBERS_TABLE,
+        "gameId",
+        query.gameId
+      );
+    } else if (query.uid) {
+      items = await fetchRelationItems<GameMemberType>(
+        GAME_MEMBERS_TABLE,
+        "uid",
+        query.uid
+      );
+    }
     return items;
   };
 
@@ -29,12 +48,18 @@ export const useGameMembers = () => {
     if (!userId) return;
     console.log("Adding game member", game.id, user.uid);
 
-    const result = await addToRelationTable(
+    const item = {
+      uid: user.uid,
+      gameId: game.id,
+      displayName: user.displayName || "",
+      gameName: game.name,
+    } as GameMemberType;
+
+    const result = await addToRelationTable<GameMemberType>(
       GAME_MEMBERS_TABLE,
-      game.id,
-      user.uid,
-      game.name,
-      user.displayName || ""
+      item,
+      userId,
+      game.id
     );
     return !!result;
   };

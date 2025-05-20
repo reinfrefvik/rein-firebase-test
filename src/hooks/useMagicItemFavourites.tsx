@@ -20,8 +20,8 @@ export const useFavorites = () => {
     if (!userId) return;
 
     setLoading(true);
-    const items = await fetchRelationItems(FAVORITES_TABLE, userId);
-    const ids = items.map((item) => item.value2);
+    const items = await fetchRelationItems<MagicItemFavouriteType>(FAVORITES_TABLE, 'uid', userId);
+    const ids = items.map((item) => item.itemId);
     setFavoriteItemIds(ids);
     setLoading(false);
   }, [userId]);
@@ -36,13 +36,14 @@ export const useFavorites = () => {
     if (!userId) return;
     if (isFavorited(itemId)) return;
 
-    await addToRelationTable(
-      FAVORITES_TABLE,
-      userId,
+    const item: MagicItemFavouriteType = {
+      uid: userId,
+      displayName: user?.displayName || "",
       itemId,
-      user?.displayName || "",
-      itemName || ""
-    );
+      itemName: itemName || "",
+    };
+
+    await addToRelationTable(FAVORITES_TABLE, item, userId, itemId);
     setFavoriteItemIds((prev) => [...prev, itemId]);
   };
 

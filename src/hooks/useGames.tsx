@@ -14,8 +14,11 @@ export const useGames = () => {
   const user = useAuthUser();
   const [games, setGames] = useState<GameType[]>([]);
   const [loading, setLoading] = useState(true);
-  const { fetchGameMembers, addGameMember, removeGameMember } =
-    useGameMembers();
+  const {
+    fetchGameMembers,
+    addGameMember,
+    removeGameMember,
+  } = useGameMembers();
 
   const userId = user?.uid;
 
@@ -24,15 +27,15 @@ export const useGames = () => {
 
     setLoading(true);
 
-    // Simulate fetching games from a database
+    // fetch all games
     const games = (await fetchItems<GameType>(GAMES_TABLE)) as GameType[];
+
+    // fetch game members for each game
     for (const game of games) {
-      const members = (await fetchGameMembers(game.id)) as GameMemberType[];
-      game.members = members.map((member) => ({
-        uid: member.value2,
-        name: member.semantic2,
+      const members = (await fetchGameMembers({
         gameId: game.id,
-      }));
+      })) as GameMemberType[];
+      game.members = members;
     }
 
     setGames(games);
