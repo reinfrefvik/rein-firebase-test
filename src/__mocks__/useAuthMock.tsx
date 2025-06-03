@@ -1,22 +1,11 @@
 import { vi } from "vitest";
-
-// First, mock the module
-vi.mock("@/contexts/useAuth", () => ({
-  useAuth: vi.fn(),
-}));
-
-// Then import the mocked version
+import { User } from "firebase/auth";
 import { useAuth } from "@/contexts/useAuth";
-
-// Export a helper to control the mocked behavior
-export const mockUseAuth = () => {
-  return vi.mocked(useAuth);
-};
 
 export const mockUseAuthLoggedIn = () => {
   const mocked = vi.mocked(useAuth);
   mocked.mockReturnValue({
-    user: { displayName: "Rein" },
+    user: { displayName: "Rein" } as Partial<User>,
     isLoading: false,
     signOut: vi.fn(),
     signIn: vi.fn(),
