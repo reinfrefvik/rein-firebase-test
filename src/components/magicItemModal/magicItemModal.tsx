@@ -103,7 +103,7 @@ const ItemModal = (props: itemModalProps) => {
           <div className="flex flex-row justify-end items-center mt-2">
             {editing && (
               <button
-                className="p-2 bg-green-400 hover:bg-green-800 text-white ml-1 rounded-sm"
+                className="p-2 bg-confirm hover:bg-confirm-dark text-white ml-1 rounded-sm"
                 onClick={handleSave}
               >
                 <FaSave />
@@ -111,30 +111,30 @@ const ItemModal = (props: itemModalProps) => {
             )}
             <button
               className={`p-2 bg-${
-                editing ? "red" : "blue"
-              }-400 text-white ml-1 rounded-sm 
-              hover:bg-${editing ? "red" : "blue"}-800 `}
+                editing ? "cancel" : "misc"
+              } text-white ml-1 rounded-sm 
+              hover:bg-${editing ? "cancel-dark" : "misc-dark"} `}
               onClick={onEdit}
             >
               {editing ? <FaTimesCircle /> : <FaPenToSquare />}
             </button>
             {isFavorited(props.modalItem.id) ? (
               <button
-                className="p-2 bg-blue-400 hover:bg-blue-800 text-white ml-1 rounded-sm"
+                className="p-2 bg-misc hover:bg-misc-dark text-white ml-1 rounded-sm"
                 onClick={handleUnfavorite}
               >
                 <FaHeartCircleXmark />
               </button>
             ) : (
               <button
-                className="p-2 bg-blue-400 hover:bg-blue-800 text-white ml-1 rounded-sm"
+                className="p-2 bg-misc hover:bg-misc-dark text-white ml-1 rounded-sm"
                 onClick={handleFavorite}
               >
                 <FaHeartCirclePlus />
               </button>
             )}
             <button
-              className="p-2 bg-red-400 hover:bg-red-800 text-white ml-1 rounded-sm"
+              className="p-2 bg-cancel hover:bg-cancel-dark text-white ml-1 rounded-sm"
               onClick={onDelete}
             >
               <FaTrashCan />

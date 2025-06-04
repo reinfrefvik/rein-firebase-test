@@ -1,4 +1,16 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --color-confirm: #4CAF50; /* Green */
+  --color-confirm-dark: #388E3C; /* Dark Green */
+  --color-cancel: #F44336; /* Red */
+  --color-cancel-dark: #D32F2F; /* Dark Red */
+  --color-misc: #2196F3; /* Blue */
+  --color-misc-dark: #1976D2; /* Dark Blue */
+}
 
 body {
   margin: 0;

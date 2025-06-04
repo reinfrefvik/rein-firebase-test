@@ -31,7 +31,7 @@ const MagicItemSearch = (props: MagicItemSearchProps) => {
             onChange={(e) => props.setSearchText(e.target.value)}
           />
           <button
-            className="p-2 bg-green-600 text-white rounded-sm"
+            className="p-2 bg-confirm hover:bg-confirm-dark text-white rounded-sm"
             onClick={searchItems}
           >
             <FaSearch />
