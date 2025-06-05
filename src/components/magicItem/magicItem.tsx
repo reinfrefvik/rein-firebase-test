@@ -14,13 +14,14 @@ const MagicItem = (props: magicItemProps) => {
   };
 
   return (
-        <div className="flex flex-col justify-start p-4 bg-white hover:bg-green-50 rounded-md drop-shadow-md cursor-pointer mt-2" onClick={getItem}>
+        <div className="flex flex-col justify-start p-4 bg-white hover:bg-green-50 rounded-md drop-shadow-md cursor-pointer mt-2 bg-linear-to-t from-white to-100%" onClick={getItem}>
           <div className="font-semibold">{title}</div>
           <div className="text-gray-500 text-sm">
             {type}
             {attunement ? " Requires Attunement" : ""}
           </div>
-          <div className="text-sm mt-3 max-h-[200px] overflow-y-hidden">{description}</div>
+            <div className="text-sm mt-3 max-h-[100px] overflow-y-hidden text-ellipsis break-normal">{description}</div>
+            <div className="h-[20px] mt-[-20px] bg-linear-to-t from-white to-100% z-10"></div>
         </div>
   );
 };

@@ -68,7 +68,7 @@ const LoginPage = () => {
         <input
           type="text"
           id="username"
-          className="w-full p-4 mb-4 bg-gray-200 rounded-md"
+          className="w-full p-2 mb-4 bg-gray-200 rounded-md"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -78,7 +78,7 @@ const LoginPage = () => {
         <input
           type="password"
           id="password"
-          className="w-full p-4 mb-4 bg-gray-200 rounded-md"
+          className="w-full p-2 mb-4 bg-gray-200 rounded-md"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -88,7 +88,7 @@ const LoginPage = () => {
 
         <div className="flex justify-between align-center">
           <button
-            className="bg-blue-500 text-white p-2 rounded-sm hover:bg-blue-800"
+            className="bg-misc text-white p-2 rounded-sm hover:bg-blue-800"
             type="submit"
           >
             Login
