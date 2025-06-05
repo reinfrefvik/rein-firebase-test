@@ -2,7 +2,7 @@ import { useAuthUser } from "@/contexts/useAuth";
 import { useGameMembers } from "@/hooks/useGameMembers";
 import { useEffect, useState } from "react";
 
-const NotesPage = () => {
+const GameNotesPage = () => {
   const { fetchGameMembers } = useGameMembers();
   const [gameRels, setGameRels] = useState<GameMemberType[]>([]);
   const [selectedGame, setSelectedGame] = useState<string>("");
@@ -10,7 +10,7 @@ const NotesPage = () => {
 
   useEffect(() => {
     const fetchGames = async () => {
-      const gameMembers = await fetchGameMembers({uid: user.uid });
+      const gameMembers = await fetchGameMembers({ uid: user.uid });
       console.log("Game Members", gameMembers);
       setGameRels(gameMembers);
     };
@@ -37,4 +37,4 @@ const NotesPage = () => {
     </div>
   );
 };
-export { NotesPage };
+export { GameNotesPage };
