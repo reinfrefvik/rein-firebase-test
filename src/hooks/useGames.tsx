@@ -14,11 +14,8 @@ export const useGames = () => {
   const user = useAuthUser();
   const [games, setGames] = useState<GameType[]>([]);
   const [loading, setLoading] = useState(true);
-  const {
-    fetchGameMembers,
-    addGameMember,
-    removeGameMember,
-  } = useGameMembers();
+  const { fetchGameMembers, addGameMember, removeGameMember } =
+    useGameMembers();
 
   const userId = user?.uid;
 
@@ -64,7 +61,11 @@ export const useGames = () => {
   };
 
   const editGame = async (item: GameType): Promise<boolean> => {
-    const result = await updateItem(item, item.id, GAMES_TABLE);
+    const tempItem = {
+      name: item.name,
+      description: item.description,
+    } as GameType;
+    const result = await updateItem(tempItem, item.id, GAMES_TABLE);
     if (result) {
       setGames((prev) =>
         prev.map((game) => (game.id === item.id ? { ...game, ...item } : game))

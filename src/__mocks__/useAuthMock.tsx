@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/useAuth";
 export const mockUseAuthLoggedIn = () => {
   const mocked = vi.mocked(useAuth);
   mocked.mockReturnValue({
-    user: { displayName: "Rein" } as Partial<User>,
+    user: { displayName: "Rein", emailVerified: true } as User,
     isLoading: false,
     signOut: vi.fn(),
     signIn: vi.fn(),

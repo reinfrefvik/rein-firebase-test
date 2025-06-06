@@ -41,11 +41,18 @@ declare type GameMemberType = {
 
 declare type GameNoteType = {
   id?: string;
-  noteType: 'character'|'faction'|'lore'|'location'|'item'|'quest'|'other';
   gameId: string;
+  userId: string;
+  noteType:
+    | "character"
+    | "faction"
+    | "lore"
+    | "location"
+    | "item"
+    | "quest"
+    | "other";
   title: string;
   content: string;
-  createdBy: string;
   createdAt?: Date;
 };
 

@@ -26,7 +26,7 @@ interface UpdateUserProps {
 }
 interface AuthContextProps {
   isLoading: boolean;
-  user: User | null | Partial<User>;
+  user: User | null;
   signOut: () => void;
   signIn: (email: string, password: string) => Promise<boolean>;
   createUser: (

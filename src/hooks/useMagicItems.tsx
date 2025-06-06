@@ -25,18 +25,21 @@ export const useMagicItems = () => {
     setLoading(true);
 
     const favoriteIds = new Set(favoriteItemIds);
-    const items = await fetchItems<MagicItemType>(MAGIC_ITEM_TABLE) as MagicItemType[];
+    const items = (await fetchItems<MagicItemType>(
+      MAGIC_ITEM_TABLE
+    )) as MagicItemType[];
     const mergedItems: MagicItemType[] = items.map((item: MagicItemType) => ({
-        ...item,
-        is_favorite: favoriteIds.has(item.id),
-      }));
+      ...item,
+      is_favorite: favoriteIds.has(item.id),
+    }));
 
     setMagicItems(mergedItems);
-    console.log('Merged Items', mergedItems);
-    
+    console.log("Merged Items", mergedItems);
+
     setLoading(false);
   }, [favoriteItemIds, userId]);
 
+  // Add a new magic item
   const addMagicItem = async (
     item: MagicItemType
   ): Promise<boolean | MagicItemType> => {
@@ -50,6 +53,7 @@ export const useMagicItems = () => {
     }
   };
 
+  // Delete a magic item
   const deleteMagicItem = async (id: string): Promise<boolean> => {
     setMagicItems((prev) => prev.filter((item) => item.id !== id));
     const result = await deleteItem(id, MAGIC_ITEM_TABLE);
@@ -59,11 +63,13 @@ export const useMagicItems = () => {
     return !!result;
   };
 
+  // Update an existing magic item
   const updateMagicItem = async (
     item: MagicItemType,
     id: string
   ): Promise<boolean> => {
     delete item.is_favorite;
+    delete item.id;
     const result = await updateItem(item, id, MAGIC_ITEM_TABLE);
     if (result) {
       setMagicItems((prev) =>
