@@ -68,9 +68,10 @@ export const useMagicItems = () => {
     item: MagicItemType,
     id: string
   ): Promise<boolean> => {
-    delete item.is_favorite;
-    delete item.id;
-    const result = await updateItem(item, id, MAGIC_ITEM_TABLE);
+    const tempItem = { ...item };
+    delete tempItem.is_favorite;
+    delete tempItem.id;
+    const result = await updateItem(tempItem, id, MAGIC_ITEM_TABLE);
     if (result) {
       setMagicItems((prev) =>
         prev.map((magicItem) =>
@@ -84,7 +85,6 @@ export const useMagicItems = () => {
   };
 
   useEffect(() => {
-    console.log("Refreshing magic items");
     refreshMagicItems();
   }, [refreshMagicItems]);
 

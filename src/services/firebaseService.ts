@@ -85,6 +85,23 @@ export const updateItem = async (
   }
 };
 
+export const updateItemFields = async (
+  item: { [key: string]: any },
+  id: string,
+  table: CollectionName
+): Promise<boolean> => {
+  try {
+    const docRef = await updateDoc(doc(db, table, id), {
+      ...item,
+    });
+    console.log("Document updated with ID: ", id, " docref: ", docRef);
+    return true;
+  } catch (e) {
+    console.error("Error updating document: ", e);
+    return false;
+  }
+};
+
 export const addToRelationTable = async <T>(
   table: CollectionRelationName,
   item: T,

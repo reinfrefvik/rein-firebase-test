@@ -1,27 +1,20 @@
 import { useAuthUser } from "@/contexts/useAuth";
-import { useGameMembers } from "@/hooks/useGameMembers";
 import { useGameNotes } from "@/hooks/useGameNotes";
 import { useEffect, useState } from "react";
 import { GameNotesForm } from "./gameNotesForm/gameNotesForm";
+import { useGamesContext } from "@/contexts/gamesProvider";
 
 const GameNotesPage = () => {
-  const { fetchGameMembers } = useGameMembers();
-  const [gameRels, setGameRels] = useState<GameMemberType[]>([]);
   const [selectedGame, setSelectedGame] = useState<string>("");
   const user = useAuthUser();
   const userId = user?.uid;
+  const { games, gamesLoading, myGames } = useGamesContext();
 
   useEffect(() => {
-    const fetchGames = async () => {
-      const gameMembers = await fetchGameMembers({ uid: user.uid });
-      setGameRels(gameMembers);
-      if (gameMembers.length > 0 && !selectedGame) {
-        setSelectedGame(gameMembers[0].gameId);
-      }
-    };
-
-    fetchGames();
-  }, [userId]);
+    if (!selectedGame && games.length > 0) {
+      setSelectedGame(games[0].id);
+    }
+  }, [userId, games]);
 
   const { addNoteToGame, notes, deleteNote, updateNote } =
     useGameNotes(selectedGame);
@@ -61,6 +54,10 @@ const GameNotesPage = () => {
     "other",
   ];
 
+  if (gamesLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-row justify-start items-center bg-white mt-[0px] w-full">
@@ -71,7 +68,7 @@ const GameNotesPage = () => {
             onChange={(e) => setSelectedGame(e.target.value)}
             value={selectedGame}
           >
-            {gameRels.map((game) => (
+            {games.map((game) => (
               <option value={game.gameId} key={game.gameId}>
                 {game.gameName}
               </option>

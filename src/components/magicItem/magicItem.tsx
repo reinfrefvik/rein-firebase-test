@@ -22,12 +22,9 @@ const MagicItem = (props: magicItemProps) => {
   useEffect(() => {
     if (!descriptionRef.current) return;
     const observer = new ResizeObserver((entries) => {
-      console.log(entries[0].contentRect.height);
       if (entries[0].contentRect.height < 100) {
-        console.log("Description is not overflowing");
         setIsDescriptionOverflowing(false);
       } else {
-        console.log("Description is overflowing");
         setIsDescriptionOverflowing(true);
       }
     });

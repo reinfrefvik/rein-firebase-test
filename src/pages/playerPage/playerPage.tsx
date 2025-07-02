@@ -1,4 +1,3 @@
-import { useGameMembers } from "@/hooks/useGameMembers";
 import { MagicItem } from "../../components/magicItem/magicItem";
 import { useAuthUser } from "../../contexts/useAuth";
 import { useFavorites } from "../../hooks/useMagicItemFavourites";
@@ -10,28 +9,17 @@ import {
   FaTrashCan,
   FaPenToSquare,
 } from "react-icons/fa6";
+import { useGamesContext } from "@/contexts/gamesProvider";
 
 const PlayerPage = () => {
   const user = useAuthUser();
   const { magicItems, loading } = useMagicItems();
   const { favoriteItemIds } = useFavorites();
-  const { fetchGameMembers } = useGameMembers();
-  const [gameMembers, setGameMembers] = useState<GameMemberType[]>([]);
-  const [loadingGames, setLoadingGames] = useState(true);
+  const { myGames } = useGamesContext();
 
   const favouritedItems = useMemo(() => {
     return magicItems.filter((item) => favoriteItemIds.includes(item.id));
   }, [magicItems, favoriteItemIds]);
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      if (!user) return;
-      const gameMembers = await fetchGameMembers({ uid: user.uid });
-      setGameMembers(gameMembers);
-      setLoadingGames(false);
-    };
-    fetchGames();
-  }, []);
 
   if (!user) {
     return (
@@ -53,22 +41,30 @@ const PlayerPage = () => {
       <h1>Player Page</h1>
       <div className="flex flex-row justify-start items-start w-full">
         <div className="flex flex-col w-[50%]">
-          <div>List of campaigns</div>
-          <div className="w-[400px]">
-            {loadingGames && <div>Loading...</div>}
-            {setGameMembers.length === 0 && <div>No games</div>}
-            {gameMembers.map((gameMember) => (
-              <div
-                key={gameMember.id}
-                className="flex flex-row justify-between items-center w-full p-2 bg-white rounded-md drop-shadow-md my-2"
-              >
-                <span>{gameMember.gameName}</span>
-                <button className="bg-red-600 text-white p-2">
-                  <FaTrashCan />
+          <div>Your games</div>
+          <div className="w-[400px]"></div>
+          {myGames.length === 0 && <div>No campaigns found</div>}
+          {myGames.map((game) => (
+            <div
+              key={game.id}
+              className="flex flex-col mb-4 bg-white p-4 rounded-md shadow-md"
+            >
+              <h2>{game.name}</h2>
+              <div className="flex flex-row justify-start items-center">
+                <span>Players: </span>
+                {game.players?.map((player) => (
+                  <span key={player.uid} className="ml-2">
+                    {player.name}
+                  </span>
+                ))}
+              </div>
+              <div className="flex flex-row justify-start items-center mt-2">
+                <button className="bg-cancel text-white p-2 rounded-md">
+                  <FaHeartCircleXmark className="mr-2" />
                 </button>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
         <div className="flex flex-col w-[50%]">
           <div>

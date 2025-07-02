@@ -1,6 +1,7 @@
 import { Game } from "@/components/game/game";
 import { useAuthUser } from "@/contexts/useAuth";
 import { useGames } from "@/hooks/useGames";
+import { useGamesContext } from "@/contexts/gamesProvider";
 import { useState } from "react";
 import { IconContext } from "react-icons";
 import { FaSave } from "react-icons/fa";
@@ -9,8 +10,15 @@ const GamesPage = () => {
   const user = useAuthUser();
   const [gameNameInput, setGameNameInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const { games, gamesLoading, addGame, refreshGames, deleteGame, editGame } =
-    useGames();
+  const {
+    games,
+    gamesLoading,
+    addGame,
+    deleteGame,
+    editGame,
+    joinGamePlayer,
+    leaveGamePlayer,
+  } = useGamesContext();
 
   const submitAction = async (e) => {
     e.preventDefault();
@@ -63,7 +71,7 @@ const GamesPage = () => {
 
             <IconContext.Provider value={{ size: "18px" }}>
               <button
-                className="bg-green-600 text-white p-2 ml-1 rounded-sm"
+                className="bg-confirm text-white p-2 ml-1 rounded-sm"
                 type="submit"
               >
                 <FaSave />

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { useGameMembers } from "@/hooks/useGameMembers";
 import {
   FaHeartCirclePlus,
   FaHeartCircleXmark,
@@ -9,6 +8,7 @@ import {
 import { FaTimesCircle, FaSave } from "react-icons/fa";
 import { useAuthUser } from "@/contexts/useAuth";
 import { IconContext } from "react-icons";
+import { useGamesContext } from "@/contexts/gamesProvider";
 
 interface GameProps {
   game: GameType;
@@ -21,8 +21,7 @@ const Game = (props: GameProps) => {
   const [editing, setEditing] = useState(false);
   const [gameNameInput, setGameNameInput] = useState(props.game.name);
   const [loading, setLoading] = useState(false);
-  const [gameMembers, setGameMembers] = useState<any[]>(props.game.members);
-  const { addGameMember, removeGameMember } = useGameMembers();
+  const { joinGamePlayer, leaveGamePlayer } = useGamesContext();
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -32,7 +31,6 @@ const Game = (props: GameProps) => {
       return false;
     }
     if (gameNameInput === "") {
-      console.log("No Changes");
       setLoading(false);
       return true;
     }
@@ -49,28 +47,19 @@ const Game = (props: GameProps) => {
 
   const handleJoinGame = async (e) => {
     e.preventDefault();
-    const result = await addGameMember(props.game, user);
-    if (!result) {
-      alert("Error joining game");
-      return false;
-    }
-    setGameMembers((prev) => [
-      ...prev,
-      {
-        uid: user.uid,
-        displayName: user.displayName || "",
-        id: user.uid + "-" + props.game.id,
-        gameId: props.game.id,
-        name: props.game.name,
-      },
-    ]);
+    setLoading(true);
+    await joinGamePlayer(props.game.id, user?.uid);
+    setLoading(false);
     return true;
   };
 
-  const handleLeaveGame = async (e) => {
+  const handleLeaveGame = async (e, uId?: string) => {
+    const tempUserId = uId || user?.uid;
+    if (!tempUserId) return;
     e.preventDefault();
-    removeGameMember(user.uid, props.game.id);
-    setGameMembers((prev) => prev.filter((member) => member.uid !== user.uid));
+    setLoading(true);
+    await leaveGamePlayer(props.game.id, tempUserId);
+    setLoading(false);
     return true;
   };
 
@@ -85,8 +74,6 @@ const Game = (props: GameProps) => {
       </div>
     );
   }
-
-  console.log("Game Members", gameMembers);
 
   return (
     <IconContext.Provider value={{ size: "18px" }}>
@@ -120,19 +107,23 @@ const Game = (props: GameProps) => {
         ) : (
           <div className="text-lg mb-2">{props.game.name}</div>
         )}
-        {gameMembers.length !== 0 && (
-          <div className="text-sm text-gray-400">Members:</div>
+        {props.game.players?.length !== 0 && (
+          <div className="text-sm text-gray-400">Players:</div>
         )}
-        {gameMembers.map((member) => (
+        {props.game.players?.map((player) => (
           <div
-            key={member.id}
+            key={player.uid}
             className="flex flex-row justify-between items-center w-full"
           >
-            <div className="text-sm text-gray-400 pl-2">{member.displayName}</div>
+            <div className="text-sm text-gray-400 pl-2">
+              {player.displayName}
+            </div>
             {editing && (
               <button
                 className="bg-red-400 text-white p-2 ml-2 rounded-sm cursor-pointer"
-                onClick={(e) => handleLeaveGame(e)}
+                onClick={(e) => {
+                  handleLeaveGame(e, player.uid);
+                }}
               >
                 <FaTrashCan />
               </button>
@@ -141,7 +132,7 @@ const Game = (props: GameProps) => {
         ))}
         <div className="flex flex-row justify-end items-center w-full">
           {!editing &&
-            (gameMembers.some((member) => member.uid === user.uid) ? (
+            (props.game.players?.some((player) => player.uid === user.uid) ? (
               <button
                 className="bg-red-400 text-white p-2 ml-2 rounded-sm cursor-pointer"
                 onClick={(e) => handleLeaveGame(e)}

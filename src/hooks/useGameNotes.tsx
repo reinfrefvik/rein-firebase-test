@@ -1,22 +1,3 @@
-// declare type GameNoteType = {
-//   id?: string;
-//   noteType: 'character'|'faction'|'lore'|'location'|'item'|'quest'|'other';
-//   gameId: string;
-//   title: string;
-//   content: string;
-//   createdBy: string;
-//   createdAt?: Date;
-// };
-
-// declare type NoteType = {
-//   id?: string;
-//   content: string;
-//   relationType: string;
-//   relationId: string;
-//   createdBy: string;
-//   createdAt?: Date;
-// };
-
 import { useAuthUser } from "@/contexts/useAuth";
 import {
   addItem,
@@ -25,8 +6,6 @@ import {
   updateItem,
 } from "@/services/firebaseService";
 import { useCallback, useEffect, useState } from "react";
-
-const GAMES_NOTES_TABLE = "game_notes" as const;
 import {
   addDoc,
   collection,
@@ -41,6 +20,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../Firebase.js"; // your Firebase config
+
+const GAMES_NOTES_TABLE = "game_notes" as const;
 
 export const useGameNotes = (gameId: string | null, userId?: string) => {
   const user = useAuthUser();

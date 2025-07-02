@@ -28,6 +28,8 @@ declare type GameType = {
   name: string;
   description?: string;
   members?: GameMemberType[];
+  players?: gamePlayerType[];
+  playerUids?: string[];
   self?: boolean;
 };
 
@@ -38,6 +40,12 @@ declare type GameMemberType = {
   displayName?: string;
   gameId: string;
 };
+
+declare type gamePlayerType = {
+  uid: string;
+  displayName: string;
+  playerRole: string;
+}
 
 declare type GameNoteType = {
   id?: string;
